@@ -1,5 +1,6 @@
 {
-  "name": "nuxt-app",
+  "name": "nuxt3-capabilities",
+  "author": "Yauheni V",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,7 +11,12 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
     "@nuxt/devtools": "latest",
-    "nuxt": "^3.7.3"
+    "nuxt": "^3.7.3",
+    "sass": "^1.67.0"
+  },
+  "dependencies": {
+    "vuetify": "^3.3.16"
   }
 }
