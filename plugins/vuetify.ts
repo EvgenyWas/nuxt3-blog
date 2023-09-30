@@ -1,8 +1,8 @@
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
-import { md3 } from "vuetify/blueprints";
-import { aliases, fa } from "vuetify/iconsets/fa";
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import { md3 } from 'vuetify/blueprints';
+import { aliases, fa } from 'vuetify/iconsets/fa';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
@@ -11,7 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     directives,
     blueprint: md3,
     icons: {
-      defaultSet: "fa",
+      defaultSet: 'fa',
       aliases,
       sets: {
         fa,
