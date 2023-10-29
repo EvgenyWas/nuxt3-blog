@@ -11,6 +11,7 @@
     "vue/no-v-html": 0,
     "vue/no-v-text-v-html-on-component": 0,
     "vue/multi-word-component-names": 0,
+    "vue/no-multiple-template-root": 0,
     "new-cap": 2,
     "object-property-newline": 0,
     "max-len": [
