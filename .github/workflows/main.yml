@@ -13,10 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
     - uses: actions/setup-node@v3
       with:
         node-version: 20
+        cache: 'pnpm'
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: pnpm install
     - name: Run ESLint
-      run: yarn run eslint
+      run: pnpm eslint
