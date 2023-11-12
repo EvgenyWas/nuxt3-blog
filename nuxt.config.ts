@@ -5,5 +5,8 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  css: ['vuetify/styles', '@fortawesome/fontawesome-free/css/all.css'],
+  css: ['vuetify/styles', '@fortawesome/fontawesome-free/css/all.css', '@/assets/styles/index.scss'],
+  typescript: {
+    typeCheck: true,
+  },
 });
