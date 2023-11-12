@@ -1,3 +1,11 @@
+// global and reset styles in addition to vuetify css reset https://vuetifyjs.com/en/styles/css-reset
+
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
 }
