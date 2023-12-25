@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'fade', mode: 'out-in' },
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/content', '@nuxtjs/eslint-module'],
+  modules: ['@nuxt/content', ['@nuxtjs/eslint-module', { lintOnStart: false }]],
   build: {
     transpile: ['vuetify'],
   },
