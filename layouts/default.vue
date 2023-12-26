@@ -165,7 +165,7 @@
       </template>
     </VNavigationDrawer>
 
-    <VContainer>
+    <VContainer class="h-100">
       <VMain class="d-flex align-center justify-center h-100">
         <slot />
       </VMain>
