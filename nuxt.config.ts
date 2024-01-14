@@ -1,3 +1,5 @@
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -5,12 +7,27 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'fade', mode: 'out-in' },
   },
   devtools: { enabled: true },
-  modules: ['@nuxt/content', ['@nuxtjs/eslint-module', { lintOnStart: false }]],
+  modules: [
+    '@nuxt/content',
+    ['@nuxtjs/eslint-module', { lintOnStart: false }],
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        config.plugins?.push(vuetify());
+      });
+    },
+  ],
   build: {
     transpile: ['vuetify'],
   },
   css: ['vuetify/styles', '@fortawesome/fontawesome-free/css/all.css', '@/assets/styles/index.scss'],
   typescript: {
     typeCheck: true,
+  },
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
   },
 });
