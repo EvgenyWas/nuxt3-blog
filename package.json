@@ -29,6 +29,7 @@
   "dependencies": {
     "@nuxt/content": "^2.10.0",
     "cloudinary": "^1.41.2",
-    "vuetify": "^3.4.9"
+    "vuetify": "^3.4.9",
+    "zod": "^3.22.4"
   }
 }
