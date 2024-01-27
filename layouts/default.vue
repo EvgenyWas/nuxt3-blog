@@ -217,7 +217,7 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
-import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '@/configs/properties';
+import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/properties';
 
 const { isDark, toggleTheme } = useColorTheme();
 const { smAndDown } = useDisplay();

@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxt/content',
-    ['@nuxtjs/eslint-module', { lintOnStart: false }],
+    // ['@nuxtjs/eslint-module', { lintOnStart: false }],
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         config.plugins?.push(vuetify());
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vuetify'],
   },
-  css: ['vuetify/styles', '@fortawesome/fontawesome-free/css/all.css', '@/assets/styles/index.scss'],
+  css: ['vuetify/styles', '@fortawesome/fontawesome-free/css/all.css', '~/assets/styles/index.scss'],
   typescript: {
     typeCheck: true,
   },

@@ -15,3 +15,13 @@ export const FOOTER_LINKS = [
 ];
 
 export const MIN_USER_NAME_LENGTH = 3;
+
+export const SERVER_PATHES = {
+  routes: {
+    storage: '/storage/',
+  },
+  api: {
+    public: {},
+    user: {},
+  },
+};
