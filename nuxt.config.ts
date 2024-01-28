@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'fade', mode: 'out-in' },
   },
   runtimeConfig: {
+    cloudinaryCloudName: process.env.NUXT_CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.NUXT_CLOUDINARY_API_KEY,
+    cloudinaryApiSecret: process.env.NUXT_CLOUDINARY_API_SECRET,
     mongodbUrl: process.env.NUXT_MONGODB_URL,
   },
   devtools: { enabled: true },
