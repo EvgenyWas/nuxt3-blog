@@ -21,7 +21,7 @@
       </template>
 
       <VAppBarTitle
-        v-if="!smAndDown"
+        v-if="!mobile"
         tag="nav"
       >
         <VContainer>
@@ -43,15 +43,17 @@
       </VAppBarTitle>
 
       <template #append>
-        <VBtn
-          v-if="smAndDown"
-          :active="drawer"
-          icon="fas fa-bars"
-          variant="plain"
-          @click="toggleDrawer"
-        />
+        <ClientOnly>
+          <VBtn
+            v-if="mobile"
+            :active="drawer"
+            icon="fas fa-bars"
+            variant="plain"
+            @click="toggleDrawer"
+          />
+        </ClientOnly>
         <div
-          v-else
+          v-if="!mobile"
           class="toolbar"
         >
           <VBtn
@@ -112,7 +114,7 @@
     </VAppBar>
 
     <VNavigationDrawer
-      v-if="smAndDown"
+      v-if="mobile"
       v-model="drawer"
       location="right"
       temporary
@@ -220,12 +222,12 @@ import { useDisplay } from 'vuetify';
 import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/properties';
 
 const { isDark, toggleTheme } = useColorTheme();
-const { smAndDown } = useDisplay();
+const { mobile } = useDisplay();
 
 const drawer = ref<boolean>(false);
 const auth = ref<boolean>(true);
 
-const headerHeight = computed<number>(() => (smAndDown.value ? 48 : 64));
+const headerHeight = computed<number>(() => (mobile.value ? 48 : 64));
 
 const footerColor = computed<string>(() => (isDark.value ? 'v-theme-surface' : 'black'));
 

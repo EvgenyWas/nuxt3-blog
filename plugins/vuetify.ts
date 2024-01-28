@@ -13,6 +13,9 @@ export default defineNuxtPlugin((nuxtApp) => {
         fa,
       },
     },
+    display: {
+      mobileBreakpoint: 'md',
+    },
   });
 
   nuxtApp.vueApp.use(vuetify);
