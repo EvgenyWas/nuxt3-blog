@@ -6,6 +6,9 @@ export default defineNuxtConfig({
     pageTransition: { name: 'fade', mode: 'out-in' },
     layoutTransition: { name: 'fade', mode: 'out-in' },
   },
+  runtimeConfig: {
+    mongodbUrl: process.env.NUXT_MONGODB_URL,
+  },
   devtools: { enabled: true },
   modules: [
     '@nuxt/content',
