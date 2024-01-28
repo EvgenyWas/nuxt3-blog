@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 // eslint-disable-next-line import/named
-import { v2 as cloudinary } from 'cloudinary';
+import { type UploadApiErrorResponse, v2 as cloudinary } from 'cloudinary';
 import { fileToDataURI } from '~/server/utils';
 
 export default defineEventHandler(async (event) => {
@@ -24,9 +24,19 @@ export default defineEventHandler(async (event) => {
     );
   }
 
-  return await cloudinary.uploader.upload(dataURI, {
-    resource_type: 'image',
-    public_id: fileName,
-    folder: `user/${userId}`,
-  });
+  try {
+    const img = await cloudinary.uploader.upload(dataURI, {
+      resource_type: 'image',
+      public_id: fileName,
+      folder: `user/${userId}`,
+    });
+
+    return img.public_id;
+  } catch (error) {
+    const cloudinaryError = error as UploadApiErrorResponse;
+    return sendError(
+      event,
+      createError({ statusCode: cloudinaryError.http_code, statusMessage: cloudinaryError.message }),
+    );
+  }
 });
