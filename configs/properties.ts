@@ -25,3 +25,13 @@ export const SERVER_PATHES = {
     user: {},
   },
 };
+
+export const COOKIE_NAMES = {
+  refreshToken: 'n3b-rt',
+};
+
+export enum AUTH_SCOPES {
+  Email_And_Password = 'email&password',
+  Google = 'google',
+  Github = 'github',
+}
