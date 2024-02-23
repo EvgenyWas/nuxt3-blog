@@ -15,6 +15,7 @@
     "new-cap": 2,
     "object-property-newline": 0,
     "no-console": 0,
+    "import/no-named-as-default-member": 0,
     "max-len": [
       "error",
       {
