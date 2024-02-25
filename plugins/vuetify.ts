@@ -2,6 +2,12 @@ import { createVuetify } from 'vuetify';
 import { md3 } from 'vuetify/blueprints';
 import { aliases, fa } from 'vuetify/iconsets/fa';
 
+const defaults = {
+  VTextField: {
+    density: 'compact',
+  },
+};
+
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     ssr: true,
@@ -16,6 +22,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     display: {
       mobileBreakpoint: 'md',
     },
+    defaults,
   });
 
   nuxtApp.vueApp.use(vuetify);
