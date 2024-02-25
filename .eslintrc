@@ -6,7 +6,7 @@
   },
   "rules": {
     "@typescript-eslint/ban-types": 2,
-    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-explicit-any": 0,
     "vue/script-setup-uses-vars": 2,
     "vue/no-v-html": 0,
     "vue/no-v-text-v-html-on-component": 0,

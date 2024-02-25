@@ -27,8 +27,8 @@ export default defineEventHandler(async (event) => {
   if (payload.scope === AUTH_SCOPES.Email_And_Password) {
     const audience = stringToBase64(getHeader(event, 'User-Agent') ?? '');
     try {
-      const { accessToken, refreshToken } = jwtGenerator.refresh(token, audience);
-      setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true });
+      const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.refresh(token, audience);
+      setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
 
       return { token: accessToken };
     } catch (error) {

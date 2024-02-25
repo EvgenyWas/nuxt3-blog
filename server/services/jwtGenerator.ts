@@ -15,9 +15,9 @@ interface Options {
 
 interface JWTPair {
   accessToken: string;
-  expiresIn: SignOptions['expiresIn'];
+  expiresIn: number;
   refreshToken: string;
-  refreshExpiresIn: SignOptions['expiresIn'];
+  refreshExpiresIn: number;
 }
 
 const defaulSignOptions: SignOptions = {
@@ -30,11 +30,11 @@ const defaulSignOptions: SignOptions = {
 const defaultOptions: DefaultOptions = {
   access: {
     ...defaulSignOptions,
-    expiresIn: '5m',
+    expiresIn: 60 * 5,
   },
   refresh: {
     ...defaulSignOptions,
-    expiresIn: '1d',
+    expiresIn: 60 * 60 * 24,
   },
 };
 
@@ -61,9 +61,9 @@ export default class JWTGenerator {
 
     return {
       accessToken,
-      expiresIn: this.options.access.expiresIn,
+      expiresIn: this.options.access.expiresIn as number,
       refreshToken,
-      refreshExpiresIn: this.options.refresh.expiresIn,
+      refreshExpiresIn: this.options.refresh.expiresIn as number,
     };
   }
 
@@ -79,9 +79,9 @@ export default class JWTGenerator {
 
     return {
       accessToken,
-      expiresIn: this.options.access.expiresIn,
+      expiresIn: this.options.access.expiresIn as number,
       refreshToken,
-      refreshExpiresIn: this.options.refresh.expiresIn,
+      refreshExpiresIn: this.options.refresh.expiresIn as number,
     };
   }
 

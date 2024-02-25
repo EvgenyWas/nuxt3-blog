@@ -72,7 +72,7 @@
               />
             </VFabTransition>
           </VBtn>
-          <VMenu v-if="auth">
+          <VMenu v-if="auth.authorized">
             <template #activator="{ props }">
               <VBtn
                 v-bind="props"
@@ -107,7 +107,7 @@
             v-else
             variant="tonal"
           >
-            <NuxtLink to="/sign-in">Sign In</NuxtLink>
+            <NuxtLink to="/login">Log In</NuxtLink>
           </VBtn>
         </div>
       </template>
@@ -119,7 +119,7 @@
       location="right"
       temporary
     >
-      <template v-if="auth">
+      <template v-if="auth.authorized">
         <VListItem
           title="John Leider"
           density="compact"
@@ -144,9 +144,9 @@
       <VListItem
         v-else
         variant="tonal"
-        title="Sign In"
+        title="Log In"
         append-icon="fas fa-sign-in-alt"
-        to="/sign-in"
+        to="/login"
       />
       <VDivider class="my-2" />
       <VListItem
@@ -223,9 +223,9 @@ import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/proper
 
 const { isDark, toggleTheme } = useColorTheme();
 const { mobile } = useDisplay();
+const auth = useAuth();
 
 const drawer = ref<boolean>(false);
-const auth = ref<boolean>(true);
 
 const headerHeight = computed<number>(() => (mobile.value ? 48 : 64));
 
