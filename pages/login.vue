@@ -117,10 +117,19 @@ const submit = async () => {
   loginError.value = '';
   isSubmitPending.value = true;
   try {
-    await useAPIClient('/api/auth/login', {
+    const { data, error } = await useAPIClient<{ token: string }>('/api/auth/login', {
       method: 'POST',
       body: { email: stringToBase64(model.email), password: stringToBase64(model.password) },
     });
+    if (error.value) {
+      throw error.value;
+    }
+
+    if (!data.value) {
+      throw new Error('Login data is missed');
+    }
+
+    useAuth().value = { token: data.value.token, authorized: true };
     if (router.options?.history?.state?.back) {
       router.back();
     } else {

@@ -28,7 +28,7 @@ export const SERVER_PATHES = {
 
 export const COOKIE_NAMES = {
   refreshToken: 'NUXT3_BLOG_RT',
-  authScope: 'NUXT3_BLOG_AUTH_SCOPE',
+  userIdentity: 'NUXT3_BLOG_UI',
 };
 
 export enum AUTH_SCOPES {
