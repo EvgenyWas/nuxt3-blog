@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 export function stringToBase64(value: string) {
   return Buffer.from(value).toString('base64');
 }
