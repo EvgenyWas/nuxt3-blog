@@ -104,10 +104,18 @@
             </VList>
           </VMenu>
           <VBtn
-            v-else
-            variant="tonal"
+            v-if="!auth.authorized"
+            variant="plain"
+            to="/login"
           >
-            <NuxtLink to="/login">Log In</NuxtLink>
+            Log In
+          </VBtn>
+          <VBtn
+            v-if="!auth.authorized"
+            variant="tonal"
+            to="/signup"
+          >
+            Sign Up
           </VBtn>
         </div>
       </template>
@@ -142,11 +150,20 @@
         </VListItem>
       </template>
       <VListItem
-        v-else
+        v-if="!auth.authorized"
         variant="tonal"
-        title="Log In"
+        title="Access Your Account"
         append-icon="fas fa-sign-in-alt"
         to="/login"
+        slim
+      />
+      <VListItem
+        v-if="!auth.authorized"
+        variant="tonal"
+        title="Get Started"
+        append-icon="fas fa-user-plus"
+        to="/signup"
+        slim
       />
       <VDivider class="my-2" />
       <VListItem
