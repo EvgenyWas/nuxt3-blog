@@ -82,13 +82,13 @@
             </template>
             <VList>
               <VListItem
-                title="John Leider"
+                :title="user.name"
                 density="compact"
               >
                 <template #prepend>
                   <UserAvatar
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    name="John Leider"
+                    :src="user.avatar"
+                    :name="user.name"
                   />
                 </template>
               </VListItem>
@@ -129,13 +129,13 @@
     >
       <template v-if="auth.authorized">
         <VListItem
-          title="John Leider"
+          :title="user.name"
           density="compact"
         >
           <template #prepend>
             <UserAvatar
-              src="https://cdn.vuetifyjs.com/images/john.jpg"
-              name="John Leider"
+              :src="user.avatar"
+              :name="user.name"
             />
           </template>
         </VListItem>
@@ -241,6 +241,7 @@ import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/proper
 const { isDark, toggleTheme } = useColorTheme();
 const { mobile } = useDisplay();
 const auth = useAuth();
+const user = useUser();
 
 const drawer = ref<boolean>(false);
 
