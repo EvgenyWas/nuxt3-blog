@@ -19,7 +19,7 @@
         <h1 class="text-center mb-2">Log In</h1>
         <VDivider class="w-50 mb-2 mx-auto" />
         <VTextField
-          v-model="model.email"
+          v-model.trim.lazy="model.email"
           :rules="emailRules"
           type="email"
           name="email"
@@ -27,7 +27,7 @@
           required
         />
         <VTextField
-          v-model="model.password"
+          v-model.trim.lazy="model.password"
           :rules="passwordRules"
           class="mb-2"
           type="password"
@@ -71,6 +71,8 @@
 </template>
 
 <script setup lang="ts">
+import type { AuthState } from '~/types/states';
+
 definePageMeta({
   layout: 'empty',
 });
@@ -88,28 +90,15 @@ const isSubmitPending = ref<boolean>(false);
 
 const emailRules = [
   (value: string) => {
-    if (value) {
-      return true;
-    }
-
-    return 'You must enter email.';
-  },
-  (value: string) => {
-    if (/.+@.+\..+/.test(value)) {
-      return true;
-    }
-
-    return 'E-mail must be valid.';
+    const validation = emailValidator.safeParse(value);
+    return validation.success || validation.error.issues[0].message;
   },
 ];
 
 const passwordRules = [
   (value: string) => {
-    if (value) {
-      return true;
-    }
-
-    return 'You must enter password.';
+    const validation = passwordValidator.safeParse(value);
+    return validation.success || validation.error.issues[0].message;
   },
 ];
 
@@ -117,9 +106,9 @@ const submit = async () => {
   loginError.value = '';
   isSubmitPending.value = true;
   try {
-    const { data, error } = await useAPIClient<{ token: string }>('/api/auth/login', {
+    const { data, error } = await useAPIClient<Pick<AuthState, 'token'>>('/api/auth/login', {
       method: 'POST',
-      body: { email: stringToBase64(model.email), password: stringToBase64(model.password) },
+      body: { email: model.email, password: stringToBase64(model.password) },
     });
     if (error.value) {
       throw error.value;
