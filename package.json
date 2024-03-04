@@ -9,6 +9,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck",
     "eslint": "eslint --ignore-path .gitignore .",
     "eslint:fix": "pnpm run eslint --fix"
   },
@@ -27,6 +28,7 @@
     "nuxt": "^3.10.3",
     "prettier": "^3.0.3",
     "sass": "^1.69.6",
+    "typescript": "^5.3.3",
     "vite-plugin-vuetify": "^2.0.1",
     "vue-tsc": "^1.8.27"
   },
