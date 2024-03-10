@@ -2,7 +2,7 @@
   "extends": ["@nuxtjs/eslint-config-typescript", "plugin:prettier/recommended"],
   "parser": "vue-eslint-parser",
   "parserOptions": {
-    "parser": "@typescript-eslint/parser"
+    "parser": "@typescript-eslint/parser",
   },
   "rules": {
     "@typescript-eslint/ban-types": 2,
@@ -21,8 +21,8 @@
       {
         "code": 120,
         "ignoreComments": true,
-        "ignoreUrls": true
-      }
+        "ignoreUrls": true,
+      },
     ],
     "prettier/prettier": [
       "error",
@@ -30,9 +30,9 @@
         "endOfLine": "auto",
         "printWidth": 120,
         "singleAttributePerLine": true,
-        "singleQuote": true
-      }
+        "singleQuote": true,
+      },
     ],
-    "quotes": ["error", "single"]
-  }
+    "quotes": ["error", "single"],
+  },
 }

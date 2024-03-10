@@ -1,17 +1,15 @@
 {
   "name": "nuxt3-blog",
-  "author": "Yauheni V",
+  "author": "Yauheni Vasiukevich",
   "private": false,
   "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
-    "eslint": "eslint --ignore-path .gitignore .",
-    "eslint:fix": "pnpm run eslint --fix"
+    "eslint": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",
