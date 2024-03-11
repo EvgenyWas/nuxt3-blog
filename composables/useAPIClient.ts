@@ -1,10 +1,10 @@
-import type { AuthState } from '~/types/states';
+import type { TokenRefreshResponse } from '~/types/responses';
 
 export default function useAPIClient<T>(
   ...[request, opts = {}]: Parameters<typeof useFetch<T>>
 ): ReturnType<typeof useFetch<T>> {
   const auth = useAuth();
-  const userAgent = process.server ? useRequestHeaders()['user-agent'] : navigator.userAgent;
+  const refreshHeaders = process.server ? useRequestHeaders() : {};
 
   return useFetch<T>(request, {
     ...opts,
@@ -22,9 +22,9 @@ export default function useAPIClient<T>(
     async onResponseError({ response }) {
       if (response.status === 401) {
         try {
-          const { token } = await $fetch<Pick<AuthState, 'token'>>('/api/auth/token/refresh', {
+          const { token } = await $fetch<TokenRefreshResponse>('/api/auth/token/refresh', {
             method: 'POST',
-            headers: { 'User-Agent': userAgent },
+            headers: refreshHeaders,
           });
           auth.value = { token, authorized: true };
         } catch (error) {
