@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import type { AuthState } from '~/types/states';
+import type { LoginResponse } from '~/types/responses';
 
 definePageMeta({
   layout: 'empty',
@@ -106,7 +106,7 @@ const submit = async () => {
   loginError.value = '';
   isSubmitPending.value = true;
   try {
-    const { data, error } = await useAPIClient<Pick<AuthState, 'token'>>('/api/auth/login', {
+    const { data, error } = await useAPIClient<LoginResponse>('/api/auth/login', {
       method: 'POST',
       body: { email: model.email, password: stringToBase64(model.password) },
     });
@@ -119,6 +119,7 @@ const submit = async () => {
     }
 
     useAuth().value = { token: data.value.token, authorized: true };
+    useUser().value = data.value.profile;
     if (router.options?.history?.state?.back) {
       router.back();
     } else {

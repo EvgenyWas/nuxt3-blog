@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const emailValidator = z
   .string()
   .min(1, { message: 'You must enter email.' })
-  .email({ message: 'E-mail must be valid.' });
+  .email({ message: 'Email must be valid.' });
 
 export const passwordValidator = z
   .string()

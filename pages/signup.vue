@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import type { AuthState } from '~/types/states';
+import type { SignupResponse } from '~/types/responses';
 
 definePageMeta({
   layout: 'empty',
@@ -130,7 +130,7 @@ const passwordRules = [
 
 const confirmRules = [
   (value: string) => {
-    if (model.confirm === value) {
+    if (model.password === value) {
       return true;
     }
 
@@ -142,7 +142,7 @@ const submit = async () => {
   signupError.value = '';
   isSubmitPending.value = true;
   try {
-    const { data, error } = await useAPIClient<Pick<AuthState, 'token'>>('/api/auth/signup', {
+    const { data, error } = await useAPIClient<SignupResponse>('/api/auth/signup', {
       method: 'POST',
       body: { email: model.email, name: model.name, password: stringToBase64(model.password) },
     });
@@ -155,6 +155,7 @@ const submit = async () => {
     }
 
     useAuth().value = { token: data.value.token, authorized: true };
+    useUser().value = data.value.profile;
     await navigateTo('/');
   } catch (error: any) {
     signupError.value =

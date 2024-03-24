@@ -4,7 +4,7 @@ export default function useAPIClient<T>(
   ...[request, opts = {}]: Parameters<typeof useFetch<T>>
 ): ReturnType<typeof useFetch<T>> {
   const auth = useAuth();
-  const refreshHeaders = process.server ? useRequestHeaders() : {};
+  const headers = useRequestHeaders();
 
   return useFetch<T>(request, {
     ...opts,
@@ -22,10 +22,7 @@ export default function useAPIClient<T>(
     async onResponseError({ response }) {
       if (response.status === 401) {
         try {
-          const { token } = await $fetch<TokenRefreshResponse>('/api/auth/token/refresh', {
-            method: 'POST',
-            headers: refreshHeaders,
-          });
+          const { token } = await $fetch<TokenRefreshResponse>('/api/auth/token/refresh', { method: 'POST', headers });
           auth.value = { token, authorized: true };
         } catch (error) {
           auth.value = { token: '', authorized: false };

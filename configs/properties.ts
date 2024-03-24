@@ -31,8 +31,9 @@ export const COOKIE_NAMES = {
   userIdentity: 'NUXT3_BLOG_UI',
 };
 
-export enum AUTH_SCOPES {
+export enum AUTH_PROVIDERS {
   Email_And_Password = 'email&password',
   Google = 'google',
   Github = 'github',
 }
+export const USER_IDENTITY_MAX_AGE = 10 * 365 * 24 * 60 * 60;

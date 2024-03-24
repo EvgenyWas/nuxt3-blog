@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
+import { AUTH_PROVIDERS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
 import { emailValidator, passwordValidator } from '~/utils/validators';
 
 const schema = new Schema({
@@ -29,6 +29,10 @@ const schema = new Schema({
       validator: (value: string) => value.startsWith('data:'),
       message: 'Avatar in base64 format is forbidden.',
     },
+  },
+  auth_provider: {
+    type: String,
+    enum: Object.values(AUTH_PROVIDERS),
   },
   createdAt: {
     type: Date,
