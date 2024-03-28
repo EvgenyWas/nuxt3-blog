@@ -56,6 +56,7 @@
           <span class="text-caption mx-2">or</span>
           <VDivider />
         </div>
+        <AuthProviders />
         <p>
           Have not an account yet?
           <NuxtLink
@@ -71,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+import AuthProviders from '~/components/AuthProviders.vue';
 import type { LoginResponse } from '~/types/responses';
 
 definePageMeta({

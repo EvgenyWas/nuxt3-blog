@@ -71,6 +71,7 @@
           <span class="text-caption mx-2">or</span>
           <VDivider />
         </div>
+        <AuthProviders />
         <p>
           Do you have an account?
           <NuxtLink
@@ -86,6 +87,7 @@
 </template>
 
 <script setup lang="ts">
+import AuthProviders from '~/components/AuthProviders.vue';
 import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
 import type { SignupResponse } from '~/types/responses';
 
