@@ -11,6 +11,9 @@ export default defineNuxtConfig({
     cloudinaryApiKey: process.env.NUXT_CLOUDINARY_API_KEY,
     cloudinaryApiSecret: process.env.NUXT_CLOUDINARY_API_SECRET,
     mongodbUrl: process.env.NUXT_MONGODB_URL,
+    public: {
+      githubClientId: process.env.NUXT_PUBLIC_GITHUB_CLIENT_ID,
+    },
   },
   devtools: { enabled: true },
   modules: [

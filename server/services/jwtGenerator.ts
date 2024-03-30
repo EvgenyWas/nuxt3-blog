@@ -43,9 +43,9 @@ export default class JWTGenerator {
   private refreshSecret: string;
   private options: DefaultOptions;
 
-  constructor(accessSecret?: string, refreshSecret?: string, options = {} as Options) {
-    this.accessSecret = accessSecret ?? 'accessSecret';
-    this.refreshSecret = refreshSecret ?? 'refreshSecret';
+  constructor(accessSecret: string, refreshSecret: string, options = {} as Options) {
+    this.accessSecret = accessSecret;
+    this.refreshSecret = refreshSecret;
     this.options = merge({}, defaultOptions, options);
   }
 
