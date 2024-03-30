@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "@nuxt/content": "^2.11.0",
+    "@octokit/oauth-app": "^7.0.1",
+    "@octokit/request": "^9.0.1",
     "cloudinary": "^1.41.2",
     "jsonwebtoken": "^9.0.2",
     "lodash-es": "^4.17.21",
