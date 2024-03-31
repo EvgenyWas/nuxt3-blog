@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AUTH_PROVIDERS, COOKIE_NAMES } from '~/configs/properties';
+import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE } from '~/configs/properties';
 import Profile from '~/server/models/user/profile.model';
 import { jwtGenerator } from '~/server/services';
 import type { Profile as IProfile } from '~/types/user';
@@ -42,7 +42,11 @@ export default defineEventHandler(async (event) => {
   const indentity = stringToBase64(JSON.stringify({ id: profile.id, provider: AUTH_PROVIDERS.Email_And_Password }));
   const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.sign({ id: profile.id });
   setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
-  setCookie(event, COOKIE_NAMES.userIdentity, indentity, { httpOnly: true, sameSite: true, maxAge });
+  setCookie(event, COOKIE_NAMES.userIdentity, indentity, {
+    httpOnly: true,
+    sameSite: true,
+    maxAge: USER_IDENTITY_MAX_AGE,
+  });
 
   return { token: accessToken, profile };
 });

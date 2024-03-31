@@ -6,7 +6,7 @@ import { fileToDataURI } from '~/server/utils';
 
 export default defineEventHandler(async (event) => {
   const userId = getRouterParam(event, 'id');
-  if (!userId || isNaN(Number(userId))) {
+  if (!Number(userId)) {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Incorrect user ID.' }));
   }
 

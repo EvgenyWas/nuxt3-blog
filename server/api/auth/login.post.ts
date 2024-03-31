@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.sign({ id: 1234 });
+    const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.sign({ id: profile.id });
     setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
 
     const identity = stringToBase64(JSON.stringify({ id: profile.id, provider: AUTH_PROVIDERS.Email_And_Password }));

@@ -8,6 +8,11 @@ export interface SignupResponse {
 
 export type LoginResponse = SignupResponse;
 
-export type TokenRefreshResponse = Pick<AuthState, 'token'>;
+export interface TokenRefreshResponse {
+  accessToken: string;
+  refreshToken: string;
+  refreshTokenExpiresIn: number;
+  type: string;
+}
 
 export type WhoamiResponse = Profile;

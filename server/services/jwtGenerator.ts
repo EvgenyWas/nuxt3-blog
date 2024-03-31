@@ -75,7 +75,7 @@ export default class JWTGenerator {
 
     const preparedPayload = omit(payload, ['iat', 'exp', 'nbf', 'jti']);
     const accessToken = jwt.sign(preparedPayload, this.accessSecret);
-    const refreshToken = jwt.sign(payload, this.refreshSecret);
+    const refreshToken = jwt.sign(preparedPayload, this.refreshSecret);
 
     return {
       accessToken,

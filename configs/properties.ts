@@ -36,4 +36,4 @@ export enum AUTH_PROVIDERS {
   Google = 'google',
   Github = 'github',
 }
-export const USER_IDENTITY_MAX_AGE = 10 * 365 * 24 * 60 * 60;
+export const USER_IDENTITY_MAX_AGE = 0.5 * 365 * 24 * 60 * 60;

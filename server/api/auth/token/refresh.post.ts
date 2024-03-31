@@ -1,18 +1,11 @@
-import { z } from 'zod';
 import { AUTH_PROVIDERS, COOKIE_NAMES } from '~/configs/properties';
+import { userIdentitySchema } from '~/server/schemas';
 import { jwtGenerator } from '~/server/services';
+import octokitOAuthApp from '~/server/services/octokitOAuthApp';
 import type { UserIdentity } from '~/server/types';
 import { base64ToString } from '~/utils/converters';
 
-const userIdentitySchema = z
-  .object({
-    id: z.string(),
-    provider: z.nativeEnum(AUTH_PROVIDERS),
-  })
-  .required()
-  .strict();
-
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
   const token = getCookie(event, COOKIE_NAMES.refreshToken);
   if (!token) {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Token is not provided' }));
@@ -29,12 +22,26 @@ export default defineEventHandler((event) => {
     );
   }
 
-  if (identity.provider === AUTH_PROVIDERS.Email_And_Password) {
+  if (identity.provider === AUTH_PROVIDERS.Github) {
     try {
-      const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.refresh(token);
-      setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
+      const { data } = await octokitOAuthApp.refreshToken({ refreshToken: token });
 
-      return { token: accessToken };
+      return {
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
+        refreshTokenExpiresIn: data.refresh_token_expires_in,
+      };
+    } catch (error) {
+      return sendError(
+        event,
+        createError({ statusCode: 500, statusMessage: 'Internal server error during refreshing token' }),
+      );
+    }
+  } else {
+    try {
+      const { accessToken, refreshToken, refreshExpiresIn } = jwtGenerator.refresh(token);
+
+      return { accessToken, refreshToken, refreshTokenExpiresIn: refreshExpiresIn };
     } catch (error) {
       return sendError(event, createError({ statusCode: 401, data: error }));
     }

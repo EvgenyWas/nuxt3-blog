@@ -18,7 +18,6 @@ const schema = new Schema({
   },
   password: {
     type: String,
-    required: true,
     validate: {
       validator: (value: string) => passwordValidator.safeParse(value).success,
     },
@@ -26,7 +25,7 @@ const schema = new Schema({
   avatar: {
     type: String,
     validate: {
-      validator: (value: string) => value.startsWith('data:'),
+      validator: (value: string) => !value.startsWith('data:'),
       message: 'Avatar in base64 format is forbidden.',
     },
   },
