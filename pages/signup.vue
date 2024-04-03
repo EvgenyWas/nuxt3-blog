@@ -144,20 +144,13 @@ const submit = async () => {
   signupError.value = '';
   isSubmitPending.value = true;
   try {
-    const { data, error } = await useAPIClient<SignupResponse>('/api/auth/signup', {
+    const { token, profile } = await $fetch<SignupResponse>('/api/auth/signup', {
       method: 'POST',
       body: { email: model.email, name: model.name, password: stringToBase64(model.password) },
     });
-    if (error.value) {
-      throw error.value;
-    }
 
-    if (!data.value) {
-      throw new Error('Signup data is missed');
-    }
-
-    useAuth().value = { token: data.value.token, authorized: true };
-    useUser().value = data.value.profile;
+    useAuth().value = { token, authorized: true };
+    useUser().value = profile;
     await navigateTo('/');
   } catch (error: any) {
     signupError.value =

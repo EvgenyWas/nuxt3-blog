@@ -108,20 +108,13 @@ const submit = async () => {
   loginError.value = '';
   isSubmitPending.value = true;
   try {
-    const { data, error } = await useAPIClient<LoginResponse>('/api/auth/login', {
+    const { token, profile } = await $fetch<LoginResponse>('/api/auth/login', {
       method: 'POST',
       body: { email: model.email, password: stringToBase64(model.password) },
     });
-    if (error.value) {
-      throw error.value;
-    }
 
-    if (!data.value) {
-      throw new Error('Login data is missed');
-    }
-
-    useAuth().value = { token: data.value.token, authorized: true };
-    useUser().value = data.value.profile;
+    useAuth().value = { token, authorized: true };
+    useUser().value = profile;
     if (router.options?.history?.state?.back) {
       router.back();
     } else {
