@@ -3,6 +3,7 @@
     <VAppBar
       :height="headerHeight"
       class="d-flex justify-space-between px-5"
+      elevation="2"
     >
       <template #prepend>
         <NuxtLink
