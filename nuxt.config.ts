@@ -38,4 +38,8 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    '/signup': { prerender: true },
+    '/login': { prerender: true },
+  },
 });
