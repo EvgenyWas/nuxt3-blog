@@ -31,8 +31,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const user = await Profile.create({ ...payload, provider: AUTH_PROVIDERS.Email_And_Password });
-    await user.save();
-
     const { _id, name, email, avatar } = user;
     Object.assign(profile, { id: _id.toString(), name, email, avatar });
   } catch (error) {
