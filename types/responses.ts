@@ -10,8 +10,6 @@ export type LoginResponse = SignupResponse;
 
 export interface TokenRefreshResponse {
   accessToken: string;
-  refreshToken: string;
-  refreshTokenExpiresIn: number;
   type: string;
 }
 

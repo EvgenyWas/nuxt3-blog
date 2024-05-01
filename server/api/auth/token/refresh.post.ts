@@ -25,12 +25,13 @@ export default defineEventHandler(async (event) => {
   if (identity.provider === AUTH_PROVIDERS.Github) {
     try {
       const { data } = await octokitOAuthApp.refreshToken({ refreshToken: token });
+      setCookie(event, COOKIE_NAMES.refreshToken, data.refresh_token, {
+        httpOnly: true,
+        sameSite: true,
+        maxAge: data.refresh_token_expires_in,
+      });
 
-      return {
-        accessToken: data.access_token,
-        refreshToken: data.refresh_token,
-        refreshTokenExpiresIn: data.refresh_token_expires_in,
-      };
+      return { accessToken: data.access_token, type: data.token_type };
     } catch (error) {
       return sendError(
         event,
@@ -39,9 +40,10 @@ export default defineEventHandler(async (event) => {
     }
   } else {
     try {
-      const { accessToken, refreshToken, refreshExpiresIn } = jwtGenerator.refresh(token);
+      const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.refresh(token);
+      setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
 
-      return { accessToken, refreshToken, refreshTokenExpiresIn: refreshExpiresIn };
+      return { accessToken, type: 'bearer' };
     } catch (error) {
       return sendError(event, createError({ statusCode: 401, data: error }));
     }

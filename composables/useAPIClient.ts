@@ -1,16 +1,12 @@
-import { COOKIE_NAMES, USER_IDENTITY_MAX_AGE } from '~/configs/properties';
 import type { TokenRefreshResponse } from '~/types/responses';
+import { fetchWithCookie } from '~/utils/helpers';
 
 export default function useAPIClient<T>(
   ...[request, opts = {}]: Parameters<typeof useFetch<T>>
 ): ReturnType<typeof useFetch<T>> {
   const auth = useAuth();
   const headers = useRequestHeaders();
-  const refreshTokenCookie = useCookie(COOKIE_NAMES.refreshToken, {
-    sameSite: true,
-    httpOnly: true,
-    maxAge: USER_IDENTITY_MAX_AGE,
-  });
+  const event = useRequestEvent();
 
   return useFetch<T>(request, {
     ...opts,
@@ -28,12 +24,11 @@ export default function useAPIClient<T>(
     async onResponseError({ response }) {
       if (response.status === 401) {
         try {
-          const { accessToken, refreshToken } = await $fetch<TokenRefreshResponse>('/api/auth/token/refresh', {
+          const { accessToken } = await fetchWithCookie<TokenRefreshResponse>(event, '/api/auth/token/refresh', {
             method: 'POST',
             headers,
           });
 
-          refreshTokenCookie.value = refreshToken;
           auth.value = { token: accessToken, authorized: true };
         } catch (error) {
           auth.value = { token: '', authorized: false };
