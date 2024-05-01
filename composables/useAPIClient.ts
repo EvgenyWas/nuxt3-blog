@@ -10,7 +10,7 @@ export default function useAPIClient<T>(
 
   return useFetch<T>(request, {
     ...opts,
-    retry: 2,
+    retry: 1,
     retryStatusCodes: [401, 408, 409, 425, 429, 500, 502, 503, 504],
     onRequest({ options }) {
       const token = auth.value.token;

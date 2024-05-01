@@ -4,6 +4,7 @@
       :height="headerHeight"
       class="d-flex justify-space-between px-5"
       elevation="2"
+      style="position: fixed"
     >
       <template #prepend>
         <NuxtLink
@@ -97,11 +98,16 @@
               <VListItem
                 v-for="link in NAV_USER_LINKS"
                 :key="link.to"
+                :title="link.title"
                 :prepend-icon="link.icon"
                 :to="link.to"
-              >
-                <VListItemTitle>{{ link.title }}</VListItemTitle>
-              </VListItem>
+              />
+              <VDivider class="my-2" />
+              <VListItem
+                title="Logout"
+                prepend-icon="fas fa-sign-out-alt"
+                href="/logout"
+              />
             </VList>
           </VMenu>
           <VBtn
@@ -127,11 +133,13 @@
       v-model="drawer"
       location="right"
       temporary
+      style="position: fixed"
     >
       <template v-if="auth.authorized">
         <VListItem
           :title="user.name"
           density="compact"
+          class="mt-2"
         >
           <template #prepend>
             <UserAvatar
@@ -144,12 +152,12 @@
         <VListItem
           v-for="link in NAV_USER_LINKS"
           :key="link.to"
+          :title="link.title"
           :append-icon="link.icon"
           :to="link.to"
-        >
-          <VListItemTitle>{{ link.title }}</VListItemTitle>
-        </VListItem>
+        />
       </template>
+
       <VListItem
         v-if="!auth.authorized"
         variant="tonal"
@@ -170,10 +178,16 @@
       <VListItem
         v-for="link in NAV_PUBLIC_LINKS"
         :key="link.to"
+        :title="link.title"
         :to="link.to"
-      >
-        <VListItemTitle>{{ link.title }}</VListItemTitle>
-      </VListItem>
+      />
+      <VDivider class="my-2" />
+      <VListItem
+        title="Logout"
+        prepend-icon="fas fa-sign-out-alt"
+        href="/logout"
+      />
+
       <template #append>
         <VImg
           :class="{ 'icon--dark': isDark }"
