@@ -34,6 +34,7 @@
     "@octokit/oauth-app": "^7.0.1",
     "@octokit/request": "^9.0.1",
     "cloudinary": "^1.41.2",
+    "googleapis": "^136.0.0",
     "jsonwebtoken": "^9.0.2",
     "lodash-es": "^4.17.21",
     "mongoose": "^8.1.1",

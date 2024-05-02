@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     mongodbUrl: process.env.NUXT_MONGODB_URL,
     public: {
       githubClientId: process.env.NUXT_PUBLIC_GITHUB_CLIENT_ID,
+      googleClientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
     },
   },
   devtools: { enabled: true },
