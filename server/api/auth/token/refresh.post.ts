@@ -1,7 +1,6 @@
 import { AUTH_PROVIDERS, COOKIE_NAMES } from '~/configs/properties';
 import { userIdentitySchema } from '~/server/schemas';
-import { jwtGenerator } from '~/server/services';
-import octokitOAuthApp from '~/server/services/octokitOAuthApp';
+import { googleOAuthClient, jwtGenerator, octokitOAuthApp } from '~/server/services';
 import type { UserIdentity } from '~/server/types';
 import { base64ToString } from '~/utils/converters';
 
@@ -11,10 +10,9 @@ export default defineEventHandler(async (event) => {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Token is not provided' }));
   }
 
-  const identityCookie = getCookie(event, COOKIE_NAMES.userIdentity) ?? '';
   let identity: UserIdentity;
   try {
-    identity = userIdentitySchema.parse(JSON.parse(base64ToString(identityCookie)));
+    identity = userIdentitySchema.parse(JSON.parse(base64ToString(getCookie(event, COOKIE_NAMES.userIdentity) ?? '')));
   } catch (error) {
     return sendError(
       event,
@@ -38,14 +36,33 @@ export default defineEventHandler(async (event) => {
         createError({ statusCode: 500, statusMessage: 'Internal server error during refreshing token' }),
       );
     }
-  } else {
-    try {
-      const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.refresh(token);
-      setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
+  }
 
-      return { accessToken, type: 'bearer' };
+  if (identity.provider === AUTH_PROVIDERS.Google) {
+    try {
+      googleOAuthClient.setCredentials({ refresh_token: token });
+      const { credentials } = await googleOAuthClient.refreshAccessToken();
+      setCookie(event, COOKIE_NAMES.refreshToken, credentials.refresh_token ?? '', {
+        httpOnly: true,
+        sameSite: true,
+        maxAge: credentials.expiry_date as number,
+      });
+
+      return { accessToken: credentials.access_token, type: credentials.token_type };
     } catch (error) {
-      return sendError(event, createError({ statusCode: 401, data: error }));
+      return sendError(
+        event,
+        createError({ statusCode: 500, statusMessage: 'Internal server error during refreshing token' }),
+      );
     }
+  }
+
+  try {
+    const { accessToken, refreshToken, refreshExpiresIn: maxAge } = jwtGenerator.refresh(token);
+    setCookie(event, COOKIE_NAMES.refreshToken, refreshToken, { httpOnly: true, sameSite: true, maxAge });
+
+    return { accessToken, type: 'bearer' };
+  } catch (error) {
+    return sendError(event, createError({ statusCode: 401, data: error }));
   }
 });

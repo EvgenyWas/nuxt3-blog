@@ -2,7 +2,7 @@ import { H3Event } from 'h3';
 
 import { userIdentitySchema } from '../schemas';
 import { AUTH_PROVIDERS, COOKIE_NAMES } from '~/configs/properties';
-import octokitOAuthApp from '~/server/services/octokitOAuthApp';
+import { googleOAuthClient, octokitOAuthApp } from '~/server/services';
 import type { UserIdentity } from '~/server/types';
 import { base64ToString } from '~/utils/converters';
 
@@ -27,12 +27,20 @@ export default defineEventHandler(async (event) => {
     return await sendRedirect(event, location, 302);
   }
 
+  const token = getCookie(event, COOKIE_NAMES.refreshToken) ?? '';
   if (identity.provider === AUTH_PROVIDERS.Github) {
-    console.log('ACCESS TOKEN:', getCookie(event, COOKIE_NAMES.refreshToken));
     try {
-      await octokitOAuthApp.deleteToken({ token: getCookie(event, COOKIE_NAMES.refreshToken) ?? '' });
+      await octokitOAuthApp.deleteToken({ token });
     } catch (error) {
-      console.log('ERROR HELLO!', error);
+      console.log(error);
+    }
+  }
+
+  if (identity.provider === AUTH_PROVIDERS.Google) {
+    try {
+      await googleOAuthClient.revokeToken(token);
+    } catch (error) {
+      console.log(error);
     }
   }
 

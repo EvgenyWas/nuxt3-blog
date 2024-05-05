@@ -6,6 +6,10 @@ import type { Profile as IProfile } from '~/types/user';
 import { stringToBase64 } from '~/utils/converters';
 import { emailValidator, passwordValidator } from '~/utils/validators';
 
+const anotherAuthProviderMessage =
+  // eslint-disable-next-line max-len
+  'You tried signing in with a different authentication method than the one you used during signup. Please try again using your original authentication method.';
+
 const loginPayloadSchema = z.object({
   email: emailValidator,
   password: passwordValidator,
@@ -26,6 +30,10 @@ export default defineEventHandler(async (event) => {
     const user = await Profile.findOne({ email: payload.email });
     if (!user) {
       throw createError({ statusCode: 404, statusMessage: 'User with the provided email does not exist' });
+    }
+
+    if (user.auth_provider !== AUTH_PROVIDERS.Email_And_Password) {
+      throw createError({ statusCode: 404, statusMessage: anotherAuthProviderMessage });
     }
 
     if (user.password !== payload.password) {
