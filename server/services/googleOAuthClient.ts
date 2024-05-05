@@ -1,10 +1,9 @@
-import { google } from 'googleapis';
+import { OAuth2Client } from 'google-auth-library';
 
-const googleOAuthClient = new google.auth.OAuth2({
-  clientId: process.env.NUXT_PUBLIC_GOOGLE_CLIENT_ID,
+const googleOAuthClient = new OAuth2Client({
+  clientId: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirectUri: 'http://localhost:3000/google/oauth/callback',
 });
-
-google.options({ auth: googleOAuthClient });
 
 export default googleOAuthClient;

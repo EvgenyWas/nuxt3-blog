@@ -2,7 +2,7 @@ import { OAuthApp } from '@octokit/oauth-app';
 
 const octokitOAuthApp = new OAuthApp({
   clientType: 'github-app',
-  clientId: process.env.NUXT_PUBLIC_GITHUB_CLIENT_ID,
+  clientId: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
 });
 
