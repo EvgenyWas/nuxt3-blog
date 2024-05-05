@@ -2,7 +2,7 @@ import { request as octokitRequest } from '@octokit/request';
 
 import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE } from '~/configs/properties';
 import Profile from '~/server/models/user/profile.model';
-import octokitOAuthApp from '~/server/services/octokitOAuthApp';
+import { octokitOAuthApp } from '~/server/services';
 import { stringToBase64 } from '~/utils/converters';
 
 const anotherAuthProviderMessage =
@@ -24,10 +24,7 @@ export default defineEventHandler(async (event) => {
     let profile = existedProfile;
     if (existedProfile) {
       if (existedProfile.auth_provider !== AUTH_PROVIDERS.Github) {
-        return sendError(
-          event,
-          createError({ statusCode: 403, statusMessage: anotherAuthProviderMessage, fatal: true }),
-        );
+        return sendError(event, createError({ statusCode: 403, statusMessage: anotherAuthProviderMessage }));
       }
     } else {
       profile = await Profile.create({
