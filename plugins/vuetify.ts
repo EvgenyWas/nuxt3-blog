@@ -6,6 +6,14 @@ const defaults = {
   VTextField: {
     density: 'compact',
   },
+  VSnackbar: {
+    closeOnBack: false,
+    closeOnContentClick: true,
+    maxWidth: 350,
+    elevation: 24,
+    color: 'surface',
+    location: 'right bottom',
+  },
 };
 
 export default defineNuxtPlugin((nuxtApp) => {
