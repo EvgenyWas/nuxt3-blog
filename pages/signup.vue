@@ -58,14 +58,6 @@
         >
           sign up
         </VBtn>
-        <VFadeTransition>
-          <p
-            v-if="signupError"
-            class="text-error text-caption text-center"
-          >
-            {{ signupError }}
-          </p>
-        </VFadeTransition>
         <div class="d-flex align-center w-50 mb-2 mx-auto">
           <VDivider />
           <span class="text-caption mx-2">or</span>
@@ -95,6 +87,8 @@ definePageMeta({
   layout: 'empty',
 });
 
+const { openErrorSnackbar } = useSnackbar();
+
 const model = reactive({
   name: '',
   email: '',
@@ -102,7 +96,6 @@ const model = reactive({
   confirm: '',
 });
 
-const signupError = ref<string>('');
 const isValid = ref<boolean>(true);
 const isSubmitPending = ref<boolean>(false);
 
@@ -141,7 +134,6 @@ const confirmRules = [
 ];
 
 const submit = async () => {
-  signupError.value = '';
   isSubmitPending.value = true;
   try {
     const { token, profile } = await $fetch<SignupResponse>('/api/auth/signup', {
@@ -152,9 +144,8 @@ const submit = async () => {
     useAuth().value = { token, authorized: true };
     useUser().value = profile;
     await navigateTo('/');
-  } catch (error: any) {
-    signupError.value =
-      isNuxtError(error) && error.statusMessage ? error.statusMessage : 'Signup failed, try please again';
+  } catch (error) {
+    openErrorSnackbar(error);
   } finally {
     isSubmitPending.value = false;
   }

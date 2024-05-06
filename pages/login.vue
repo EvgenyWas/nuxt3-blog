@@ -43,14 +43,6 @@
         >
           log in
         </VBtn>
-        <VFadeTransition>
-          <p
-            v-if="loginError"
-            class="text-error text-caption text-center"
-          >
-            {{ loginError }}
-          </p>
-        </VFadeTransition>
         <div class="d-flex align-center w-50 mb-2 mx-auto">
           <VDivider />
           <span class="text-caption mx-2">or</span>
@@ -81,12 +73,13 @@ definePageMeta({
 
 const router = useRouter();
 
+const { openErrorSnackbar } = useSnackbar();
+
 const model = reactive({
   email: '',
   password: '',
 });
 
-const loginError = ref<string>('');
 const isValid = ref<boolean>(true);
 const isSubmitPending = ref<boolean>(false);
 
@@ -105,7 +98,6 @@ const passwordRules = [
 ];
 
 const submit = async () => {
-  loginError.value = '';
   isSubmitPending.value = true;
   try {
     const { token, profile } = await $fetch<LoginResponse>('/api/auth/login', {
@@ -120,9 +112,8 @@ const submit = async () => {
     } else {
       await router.replace('/');
     }
-  } catch (error: any) {
-    loginError.value =
-      isNuxtError(error) && error.statusMessage ? error.statusMessage : 'Login failed, try please again';
+  } catch (error) {
+    openErrorSnackbar(error);
   } finally {
     isSubmitPending.value = false;
   }
