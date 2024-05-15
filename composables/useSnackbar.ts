@@ -1,5 +1,4 @@
 import { isError, isString } from 'lodash-es';
-import { nextTick, ref, shallowReactive, shallowRef } from 'vue';
 import { VSnackbar } from 'vuetify/lib/components/index.mjs';
 
 interface Snackbar
@@ -22,9 +21,11 @@ interface Snackbar
 
 type SnackbarOptions = Omit<Snackbar, 'text'>;
 
-const snackbars = shallowReactive<Array<Snackbar>>([]);
-const current = shallowRef<Snackbar>();
-const isActive = ref<boolean>(false);
+interface SnackbarState {
+  all: Array<Snackbar>;
+  current: Snackbar | null;
+  isActive: boolean;
+}
 
 const createSnackbar = (value: unknown, options = {} as SnackbarOptions): Snackbar => {
   switch (true) {
@@ -45,15 +46,17 @@ const createSnackbar = (value: unknown, options = {} as SnackbarOptions): Snackb
 };
 
 export default function useSnackbar() {
+  const state = useState<SnackbarState>('snackbar-state', () => ({ all: [], current: null, isActive: false }));
+
   const showNext = () => {
-    current.value = snackbars[0];
-    snackbars.splice(0, 1);
-    nextTick(() => (isActive.value = true));
+    state.value.current = state.value.all[0];
+    state.value.all.splice(0, 1);
+    nextTick(() => (state.value.isActive = true));
   };
 
   const openSnackbar = (snackbar: Snackbar) => {
-    snackbars.push(snackbar);
-    if (!isActive.value) {
+    state.value.all.push(snackbar);
+    if (!state.value.isActive) {
       showNext();
     }
   };
@@ -74,21 +77,20 @@ export default function useSnackbar() {
   };
 
   const onAfterLeave = () => {
-    if (snackbars.length) {
+    if (state.value.all.length) {
       showNext();
     } else {
-      current.value = undefined;
+      state.value.current = null;
     }
   };
 
   const onClose = () => {
-    isActive.value = false;
+    state.value.isActive = false;
   };
 
   return {
     snackbar: {
-      current,
-      isActive,
+      state,
       onAfterLeave,
       onClose,
     },

@@ -6,16 +6,16 @@
 
     <ClientOnly>
       <VSnackbar
-        v-bind="snackbar.current.value"
-        v-model="snackbar.isActive.value"
+        v-bind="snackbar.state.value.current"
+        v-model="snackbar.state.value.isActive"
         @after-leave="snackbar.onAfterLeave"
       >
         <template #text>
           <div class="d-flex align-center ga-2 pa-1">
             <VIcon
-              v-if="snackbar.current.value?.icon"
-              :icon="snackbar.current.value.icon"
-              :color="snackbar.current.value.iconColor"
+              v-if="snackbar.state.value.current?.icon"
+              :icon="snackbar.state.value.current.icon"
+              :color="snackbar.state.value.current.iconColor"
             />
             <span class="w-100 text-caption">{{ snackbarText }}</span>
           </div>
@@ -34,7 +34,7 @@ const { initTheme } = useColorTheme();
 const { snackbar } = useSnackbar();
 
 const snackbarText = computed<string>(() =>
-  truncate(snackbar.current.value?.text, { length: MAX_SNACKBAR_TEXT_LENGTH }),
+  truncate(snackbar.state.value.current?.text, { length: MAX_SNACKBAR_TEXT_LENGTH }),
 );
 
 onMounted(() => {
