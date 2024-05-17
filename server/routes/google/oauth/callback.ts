@@ -50,7 +50,8 @@ export default defineEventHandler(async (event) => {
       maxAge: USER_IDENTITY_MAX_AGE,
     });
 
-    return await sendRedirect(event, '/', 302);
+    setResponseHeader(event, 'Content-Type', 'text/html');
+    return `<html><head><meta http-equiv="refresh" content="0; URL='${getRequestURL(event).origin}'"/></head></html>`;
   } catch (error) {
     return sendError(event, createError({ statusCode: 500, statusMessage: JSON.stringify(error) }));
   }
