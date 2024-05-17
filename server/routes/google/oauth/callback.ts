@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   const queries = getQuery(event);
   try {
     if (queries.error) {
-      return sendError(event, createError({ statusCode: 400, statusMessage: queries.error as string }));
+      return await sendRedirect(event, `/google-oauth-error?code=400&message=${queries.error}`);
     }
 
     const { tokens } = await googleOAuthClient.getToken(queries.code as string);
@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     let profile = existedProfile;
     if (existedProfile) {
       if (existedProfile.auth_provider !== AUTH_PROVIDERS.Google) {
-        return sendError(event, createError({ statusCode: 403, statusMessage: anotherAuthProviderMessage }));
+        return await sendRedirect(event, `/google-oauth-error?code=403&message=${anotherAuthProviderMessage}`);
       }
     } else {
       profile = await Profile.create({

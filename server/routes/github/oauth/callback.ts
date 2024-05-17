@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     let profile = existedProfile;
     if (existedProfile) {
       if (existedProfile.auth_provider !== AUTH_PROVIDERS.Github) {
-        return sendError(event, createError({ statusCode: 403, statusMessage: anotherAuthProviderMessage }));
+        return await sendRedirect(event, `/github-oauth-error?code=403&message=${anotherAuthProviderMessage}`);
       }
     } else {
       profile = await Profile.create({
