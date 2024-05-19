@@ -1,7 +1,6 @@
 export const NAV_PUBLIC_LINKS = [
   { to: '/about', title: 'About' },
   { to: '/articles', title: 'Articles' },
-  { to: '/topics', title: 'Topics' },
 ];
 export const NAV_USER_LINKS = [
   { to: '/profile', title: 'Profile', icon: 'fas fa-user' },
@@ -37,3 +36,14 @@ export enum AUTH_PROVIDERS {
   Github = 'github',
 }
 export const USER_IDENTITY_MAX_AGE = 0.5 * 365 * 24 * 60 * 60;
+
+export const ARTICLE_TOPICS = [
+  { name: 'css', title: 'CSS', emoji: '🧝‍♀️' },
+  { name: 'html', title: 'HTML', emoji: '🤖' },
+  { name: 'js', title: 'JavaScript', emoji: '😎' },
+  { name: 'react', title: 'React.JS', emoji: '⚛️' },
+  { name: 'vue', title: 'Vue.JS', emoji: '👽' },
+  { name: 'web', title: 'WEB', emoji: '👾' },
+];
+
+export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design'] as const;

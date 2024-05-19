@@ -18,6 +18,18 @@ const props = defineProps<{ error: NuxtError & { data: { to?: string } } }>();
 
 const route = useRoute();
 
+const errorData = computed(() => {
+  if (typeof props.error.data === 'string') {
+    try {
+      return JSON.parse(props.error.data);
+    } catch (error) {
+      return {};
+    }
+  } else {
+    return props.error.data;
+  }
+});
+
 const headline = computed<string>(() => String(route.query.code || props.error.statusCode || 404));
 
 const title = computed<string>(
@@ -25,17 +37,19 @@ const title = computed<string>(
 );
 
 const actionText = computed<string>(() => {
-  switch (route.query.to?.toString() || props.error.data.to) {
+  switch (route.query.to?.toString() || errorData.value.to) {
+    case '/articles':
+      return 'all articles';
     case '/signup':
-      return 'Go to sign up';
+      return 'go to sign up';
     case '/login':
-      return 'Go to log in';
+      return 'go to log in';
     default:
-      return 'Go home';
+      return 'go home';
   }
 });
 
-const onActionClick = () => navigateTo(route.query.to?.toString() || '/');
+const onActionClick = () => navigateTo(route.query.to?.toString() || errorData.value.to || '/');
 </script>
 
 <style>
