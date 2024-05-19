@@ -40,4 +40,12 @@ export default defineNuxtConfig({
     '/login': { prerender: true },
     '/profile/**': { ssr: false },
   },
+  content: {
+    highlight: {
+      theme: {
+        default: 'github-dark',
+        sepia: 'monokai',
+      },
+    },
+  },
 });
