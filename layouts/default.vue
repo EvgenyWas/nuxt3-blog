@@ -199,8 +199,28 @@
       </template>
     </VNavigationDrawer>
 
-    <VContainer class="h-100">
-      <VMain class="d-flex align-center justify-center h-100">
+    <VContainer class="h-100 pt-16">
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <VBreadcrumbs
+          v-if="breadcrumbs.length"
+          :items="breadcrumbs"
+          aria-label="breadcrumbs"
+        >
+          <template #prepend>
+            <img
+              src="/nuxt-icon.svg"
+              alt="Nuxt icon"
+              height="20"
+              class="breadcrumbs-img"
+            />
+          </template>
+        </VBreadcrumbs>
+      </Transition>
+
+      <VMain class="d-flex flex-column align-center justify-center h-100 pt-0">
         <slot />
       </VMain>
     </VContainer>
@@ -255,6 +275,8 @@ import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/proper
 
 const { isDark, toggleTheme } = useColorTheme();
 const { mobile } = useDisplay();
+const route = useRoute();
+
 const auth = useAuth();
 const user = useUser();
 
@@ -263,6 +285,18 @@ const drawer = ref<boolean>(false);
 const headerHeight = computed<number>(() => (mobile.value ? 48 : 64));
 
 const footerColor = computed<string>(() => (isDark.value ? 'v-theme-surface' : 'black'));
+
+const breadcrumbs = computed(() => {
+  if (route.path === '/') {
+    return [];
+  }
+
+  const items = route.path.split('/');
+  return items.map((item, idx) => ({
+    title: idx ? item : 'Home',
+    to: idx ? `${idx >= 2 ? `/${items[idx - 1]}` : ''}/${item}` : '/',
+  }));
+});
 
 const toggleDrawer = () => (drawer.value = !drawer.value);
 </script>
@@ -278,6 +312,12 @@ $filter-black-to-white: invert(100%) sepia(33%) saturate(3149%) hue-rotate(185de
 
 .icon {
   &--dark {
+    filter: $filter-black-to-white;
+  }
+}
+
+.v-application.v-theme--dark {
+  .breadcrumbs-img {
     filter: $filter-black-to-white;
   }
 }
