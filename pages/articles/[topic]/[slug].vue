@@ -22,11 +22,14 @@
           v-if="article?.image"
           :src="article.image"
           :alt="article?.title"
-          class="w-75"
+          class="article-image w-75"
         />
       </div>
 
-      <ContentRenderer :value="article" />
+      <ContentRenderer
+        v-if="article"
+        :value="article"
+      />
     </article>
 
     <VContainer
@@ -134,48 +137,16 @@ onBeforeRouteLeave((_, from) => {
   max-width: 100%;
 }
 
-.v-application.v-theme--light {
-  .article {
-    pre.shiki {
-      background-color: rgb(var(--v-theme-on-surface));
-    }
-  }
-}
-
-.v-application.v-theme--dark {
-  .article {
-    pre.shiki {
-      background-color: rgb(var(--v-theme-surface));
-    }
-  }
-}
-
 .article {
   & * {
     margin-bottom: 8px;
   }
 
-  pre.shiki {
-    max-width: 100%;
-    margin: 12px 0 20px;
-    padding: 16px;
-    border-radius: 8px;
-    overflow-x: auto;
-  }
-
-  img {
+  &-image {
     max-width: 100%;
     height: auto;
     max-height: 500px;
     object-fit: contain;
-  }
-
-  code {
-    background-color: rgba(var(--v-theme-secondary), 0.3);
-  }
-
-  p {
-    @extend .text-h1 !optional;
   }
 
   ol {

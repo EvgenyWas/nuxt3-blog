@@ -28,7 +28,7 @@ export const SERVER_PATHES = {
 export const COOKIE_NAMES = {
   refreshToken: 'NUXT3_BLOG_RT',
   userIdentity: 'NUXT3_BLOG_UI',
-};
+} as const;
 
 export enum AUTH_PROVIDERS {
   Email_And_Password = 'email&password',

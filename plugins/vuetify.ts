@@ -32,6 +32,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     },
     defaults,
   });
-
+  // @ts-expect-error
   nuxtApp.vueApp.use(vuetify);
 });
