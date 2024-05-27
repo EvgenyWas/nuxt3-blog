@@ -3,7 +3,7 @@ id: 1
 title: "JavaScript's primitive wrapper objects"
 description: "JavaScript's primitive wrapper objects"
 src: 'https://adripofjavascript.com/blog/drips/javascripts-primitive-wrapper-objects.html'
-keywords: []
+keywords: ['fundamentals']
 ---
 
 We've talked before about how in JavaScript most things behave like objects even when they aren't objects. For instance, consider how we can call methods on a string even though it is a primitive:

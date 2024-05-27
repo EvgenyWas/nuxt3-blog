@@ -5,7 +5,7 @@ description: 'We are going to talk about the main kinds of APIs used nowadays (S
 image: '/storage/articles/web/soap-vs-rest-vs-graphql-apis/image'
 src: 'https://www.freecodecamp.org/news/rest-vs-graphql-apis/'
 author: 'Germán Cocca'
-keywords: []
+keywords: ['architecture', 'api']
 ---
 
 ## Intro
