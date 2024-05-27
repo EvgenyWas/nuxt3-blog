@@ -43,10 +43,14 @@
             variant="plain"
             prepend-icon="fas fa-chevron-left"
             rounded="md"
-            class="text-body-1"
             @click="onPrevClick"
           >
-            {{ prevSibling.title }}
+            <VTooltip
+              :text="prevSibling.title"
+              location="top"
+              activator="parent"
+            />
+            Previous
           </VBtn>
         </VCol>
 
@@ -59,10 +63,14 @@
             variant="plain"
             append-icon="fas fa-chevron-right"
             rounded="md"
-            class="text-body-1"
             @click="onNextClick"
           >
-            {{ nextSibling.title }}
+            <VTooltip
+              :text="nextSibling.title"
+              location="top"
+              activator="parent"
+            />
+            Next
           </VBtn>
         </VCol>
       </VRow>

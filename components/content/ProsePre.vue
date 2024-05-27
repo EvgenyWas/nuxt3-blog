@@ -1,5 +1,8 @@
 <template>
-  <pre :class="$props.class"><slot /></pre>
+  <pre
+    :class="$props.class"
+    class="prose-pre"
+  ><slot /></pre>
 </template>
 
 <script setup lang="ts">
@@ -16,7 +19,7 @@ defineProps({
 <style>
 .v-application.v-theme--light {
   .article {
-    pre {
+    .prose-pre {
       background-color: rgb(var(--v-theme-on-surface));
     }
   }
@@ -24,17 +27,17 @@ defineProps({
 
 .v-application.v-theme--dark {
   .article {
-    pre {
+    .prose-pre {
       background-color: rgb(var(--v-theme-surface));
     }
   }
 }
 
-pre code .line {
+.prose-pre code .line {
   display: block;
 }
 
-pre {
+.prose-pre {
   max-width: 100%;
   margin: 12px 0 20px;
   padding: 16px;
