@@ -294,7 +294,7 @@ const breadcrumbs = computed(() => {
   const items = route.path.split('/');
   return items.map((item, idx) => ({
     title: idx ? item : 'Home',
-    to: idx ? `${idx >= 2 ? `/${items[idx - 1]}` : ''}/${item}` : '/',
+    to: idx ? `/${items.slice(1, idx + 1).join('/')}` : '/',
   }));
 });
 
