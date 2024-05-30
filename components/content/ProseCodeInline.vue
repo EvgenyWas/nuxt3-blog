@@ -1,5 +1,5 @@
 <template>
-  <code><slot /></code>
+  <code class="mb-2"><slot /></code>
 </template>
 
 <style scoped>

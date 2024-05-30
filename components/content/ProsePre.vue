@@ -2,7 +2,9 @@
   <pre
     :class="$props.class"
     class="prose-pre"
-  ><slot /></pre>
+  >
+  <slot />
+  </pre>
 </template>
 
 <script setup lang="ts">
