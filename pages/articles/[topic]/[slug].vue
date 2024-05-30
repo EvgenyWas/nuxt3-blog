@@ -2,17 +2,17 @@
   <div class="container">
     <article class="article">
       <div class="d-flex flex-column justify-center align-center mb-8 mb-md-12">
-        <h1 class="mb-1 text-h5 text-md-h4 text-center">{{ article?.title }}</h1>
+        <h1 class="mb-2 text-h5 text-md-h4 text-center">{{ article?.title }}</h1>
         <p
           v-if="article?.author"
-          class="text-subtitle-1"
+          class="text-subtitle-1 mb-2"
         >
           {{ article.author }}
         </p>
         <NuxtLink
           v-if="article?.src"
           :to="article.src"
-          class="text-caption text-decoration-underline"
+          class="text-caption text-decoration-underline mb-2"
           target="_blank"
           external
         >
@@ -146,10 +146,6 @@ onBeforeRouteLeave((_, from) => {
 }
 
 .article {
-  & * {
-    margin-bottom: 8px;
-  }
-
   &-image {
     max-width: 100%;
     height: auto;
@@ -167,7 +163,17 @@ onBeforeRouteLeave((_, from) => {
 
   ol,
   ul {
+    margin-bottom: 12px;
     padding-left: 30px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: 12px;
   }
 }
 </style>
