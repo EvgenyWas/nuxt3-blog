@@ -46,9 +46,7 @@ When your user interface has to provide instant feedback, even on unreliable con
 - **Favor Native Browser Features over Custom APIs:** Use Browser Events for communication instead of building a global PubSub system. If you really have to build a cross-team API, try keeping it as simple as possible.
 - **Build a Resilient Site:** Your feature should be useful, even if JavaScript failed or hasn’t executed yet. Use Universal Rendering and Progressive Enhancement to improve perceived performance.
 
-<br>
 <hr>
-<br>
 
 ## The DOM is the API
 
