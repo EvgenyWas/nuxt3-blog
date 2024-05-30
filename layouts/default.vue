@@ -1,5 +1,8 @@
 <template>
-  <VLayout class="flex-column rounded rounded-md">
+  <VLayout
+    :class="{ 'default-layout-mobile': mobile }"
+    class="flex-column rounded rounded-md"
+  >
     <VAppBar
       :height="headerHeight"
       class="d-flex justify-space-between px-5"
@@ -328,5 +331,27 @@ $filter-black-to-white: invert(100%) sepia(33%) saturate(3149%) hue-rotate(185de
   align-items: center;
   gap: 16px;
   width: 128px;
+}
+</style>
+
+<style lang="scss">
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  scroll-margin-top: 68px;
+}
+
+.default-layout-mobile {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    scroll-margin-top: 68px;
+  }
 }
 </style>
