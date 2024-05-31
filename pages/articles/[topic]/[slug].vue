@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mb-8">
     <article class="article">
       <div class="d-flex flex-column justify-center align-center mb-8 mb-md-12">
         <h1 class="mb-2 text-h5 text-md-h4 text-center">{{ article?.title }}</h1>
