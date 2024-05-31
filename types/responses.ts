@@ -25,3 +25,5 @@ export interface ArticleContent extends MarkdownParsedContent {
   author?: string;
   keywords: Array<(typeof ARTICLE_KEYWORDS)[number]>;
 }
+
+export type ArticleListItem = Pick<ArticleContent, '_path' | 'title' | 'description' | 'image'>;
