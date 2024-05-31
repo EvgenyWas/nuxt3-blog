@@ -1,13 +1,12 @@
 // eslint-disable-next-line import/named
 import { v2 as cloudinary } from 'cloudinary';
-import { SERVER_PATHES } from '~/configs/properties';
 
 export default defineEventHandler((event) => {
   let assetUrl;
   try {
     const { req } = event.node;
     const { pathname, searchParams } = new URL(req.url ?? '', `http://${req.headers.host}`);
-    const path = pathname.replace(SERVER_PATHES.routes.storage, '');
+    const path = pathname.replace('/storage/', '');
     assetUrl = cloudinary.url(path, {
       quality: 'auto',
       fetch_format: 'auto',

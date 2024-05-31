@@ -15,16 +15,6 @@ export const FOOTER_LINKS = [
 
 export const MIN_USER_NAME_LENGTH = 3;
 
-export const SERVER_PATHES = {
-  routes: {
-    storage: '/storage/',
-  },
-  api: {
-    public: {},
-    user: {},
-  },
-};
-
 export const COOKIE_NAMES = {
   refreshToken: 'NUXT3_BLOG_RT',
   userIdentity: 'NUXT3_BLOG_UI',
@@ -46,4 +36,4 @@ export const ARTICLE_TOPICS = [
   { name: 'web', title: 'WEB', emoji: '👾' },
 ];
 
-export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design'] as const;
+export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design', 'fundamentals', 'perfomance', 'refactoring'] as const;
