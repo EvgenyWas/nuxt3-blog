@@ -39,7 +39,7 @@ if (!topic) {
   throw createError({ statusCode: 404, statusMessage: 'The requested articles topic does not exist', fatal: true });
 }
 
-const { data: articles, error } = await useAsyncData('articles', () =>
+const { data: articles, error } = await useAsyncData(`articles/${topic.name}`, () =>
   queryContent<ArticleListItem>(`articles/${topic.name}`).only(ARTICLE_ONLY).find(),
 );
 if (error.value) {

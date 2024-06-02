@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(() => {
   if (!useAuth().value.authorized) {
-    return navigateTo('/login', { redirectCode: 302 });
+    return navigateTo('/login', { redirectCode: 403 });
   }
 });

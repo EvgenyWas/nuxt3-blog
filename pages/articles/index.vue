@@ -1,8 +1,11 @@
 <template>
-  <div class="mb-8">
+  <div class="w-100 mb-8">
     <VContainer tag="section">
       <VRow>
-        <VCol cols="7">
+        <VCol
+          cols="12"
+          md="7"
+        >
           <VChipGroup
             aria-label="topics"
             tag="nav"
@@ -17,6 +20,33 @@
             />
           </VChipGroup>
         </VCol>
+
+        <VCol>
+          <VSelect
+            v-model="keywords"
+            :items="ARTICLE_KEYWORDS"
+            density="compact"
+            variant="solo"
+            label="keywords"
+            multiple
+            hide-details
+          >
+            <template #selection="{ item, index }">
+              <VChip
+                v-if="index < 2"
+                :text="item.title"
+                density="compact"
+                rounded
+              />
+              <span
+                v-if="index === 2"
+                class="text-grey text-caption align-self-center"
+              >
+                (+{{ keywords.length - 2 }} others)
+              </span>
+            </template>
+          </VSelect>
+        </VCol>
       </VRow>
     </VContainer>
 
@@ -26,7 +56,7 @@
         @load="onInfiniteScrollLoad"
       >
         <VListItem
-          v-for="article in articles"
+          v-for="article in filteredArticles"
           :key="article._path"
           :title="article.title"
           :subtitle="article.description"
@@ -68,19 +98,22 @@
 </template>
 
 <script setup lang="ts">
+import { intersection } from 'lodash-es';
 import { useDisplay } from 'vuetify';
 import type { VInfiniteScroll } from 'vuetify/components';
-import { ARTICLE_TOPICS } from '~/configs/properties';
+import { ARTICLE_KEYWORDS, ARTICLE_TOPICS } from '~/configs/properties';
 import type { ArticleListItem } from '~/types/responses';
 
 const START_LIMIT = 10;
 const EXTRA_LIMIT = 10;
-const ARTICLE_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image'];
+const ARTICLE_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image', 'keywords'];
 
 useSeoMeta({ title: 'Articles', description: 'All the blog articles' });
 
 const { mobile } = useDisplay();
 const { openErrorSnackbar } = useSnackbar();
+
+const keywords = ref<Array<(typeof ARTICLE_KEYWORDS)[number]>>([]);
 
 const extraArticles = reactive<Array<ArticleListItem>>([]);
 
@@ -92,6 +125,14 @@ if (!data.value || error.value) {
 }
 
 const articles = computed<Array<ArticleListItem>>(() => [...data.value!, ...extraArticles]);
+
+const filteredArticles = computed<Array<ArticleListItem>>(() => {
+  if (!keywords.value.length) {
+    return articles.value;
+  }
+
+  return articles.value.filter((article) => intersection(article.keywords, keywords.value).length);
+});
 
 const getTopic = (path: string) => path.split('/')[2];
 
@@ -105,6 +146,7 @@ const onInfiniteScrollLoad: VInfiniteScroll['$props']['onLoad'] = async ({ done 
     if (!loadedArticles.length) {
       return done('empty');
     }
+
     extraArticles.push(...loadedArticles);
     done('ok');
   } catch (error) {
