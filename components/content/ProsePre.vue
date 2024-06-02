@@ -40,6 +40,7 @@ defineProps({
 }
 
 .prose-pre {
+  display: flex;
   max-width: 100%;
   margin: 12px 0 20px;
   padding: 16px;
