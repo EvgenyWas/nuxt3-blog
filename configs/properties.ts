@@ -4,9 +4,8 @@ export const NAV_PUBLIC_LINKS = [
 ];
 export const NAV_USER_LINKS = [
   { to: '/profile', title: 'Profile', icon: 'fas fa-user' },
-  { to: '/profile/favorites', title: 'Favorites', icon: 'fas fa-star' },
+  { to: '/profile/favorites', title: 'Favorites', icon: 'fas fa-heart' },
   { to: '/profile/comments', title: 'Comments', icon: 'fas fa-comments' },
-  { to: '/profile/edit', title: 'Edit', icon: 'fas fa-pen' },
 ];
 export const FOOTER_LINKS = [
   { to: 'https://linkedin.com/in/evgenywas/', icon: 'fab fa-linkedin' },
