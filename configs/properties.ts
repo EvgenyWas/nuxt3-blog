@@ -34,5 +34,5 @@ export const ARTICLE_TOPICS = [
   { name: 'vue', title: 'Vue.JS', emoji: '👽' },
   { name: 'web', title: 'WEB', emoji: '👾' },
 ];
-
 export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design', 'fundamentals', 'perfomance', 'refactoring'] as const;
+export const MAX_ARTICLE_RATE = 5 as const;
