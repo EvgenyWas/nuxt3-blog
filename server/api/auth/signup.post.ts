@@ -1,5 +1,6 @@
+import { pick } from 'lodash-es';
 import { z } from 'zod';
-import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE } from '~/configs/properties';
+import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE, USER_PROFILE_PICK_PATHS } from '~/configs/properties';
 import Profile from '~/server/models/user/profile.model';
 import { jwtGenerator } from '~/server/services';
 import type { Profile as IProfile } from '~/types/user';
@@ -31,8 +32,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const user = await Profile.create({ ...payload, provider: AUTH_PROVIDERS.Email_And_Password });
-    const { _id, name, email, avatar } = user;
-    Object.assign(profile, { id: _id.toString(), name, email, avatar });
+    Object.assign(profile, { id: user._id.toString(), ...pick(profile, USER_PROFILE_PICK_PATHS) });
   } catch (error) {
     return sendError(event, isError(error) ? error : createError({ statusCode: 404, statusMessage: error as string }));
   }

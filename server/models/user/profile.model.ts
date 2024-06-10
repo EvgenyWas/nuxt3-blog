@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
-import { AUTH_PROVIDERS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import { emailValidator, passwordValidator } from '~/utils/validators';
+import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
+import { emailValidator, passwordValidator, base64Validator } from '~/utils/validators';
 
 const schema = new Schema({
   name: {
@@ -25,9 +25,30 @@ const schema = new Schema({
   avatar: {
     type: String,
     validate: {
-      validator: (value: string) => !value.startsWith('data:'),
+      validator: (value?: string) => !base64Validator.safeParse(value).success,
       message: 'Avatar in base64 format is forbidden.',
     },
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  address: {
+    type: String,
+    default: '',
+  },
+  phone: {
+    type: String,
+    default: '',
+  },
+  socials: {
+    type: Array,
+    validate: {
+      validator: (value: Array<string>) => value.length <= MAX_USER_SOCIALS,
+      message: `The maximum number of socials is ${MAX_USER_SOCIALS}`,
+    },
+    default: () => Array(MAX_USER_SOCIALS).fill(''),
   },
   auth_provider: {
     type: String,

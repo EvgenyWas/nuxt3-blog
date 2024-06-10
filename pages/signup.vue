@@ -20,41 +20,41 @@
         <VDivider class="w-50 mb-2 mx-auto" />
         <VTextField
           v-model.trim.lazy="model.name"
+          :rules="nameRules"
           name="name"
           label="name"
-          :rules="nameRules"
           required
         />
         <VTextField
           v-model.trim.lazy="model.email"
+          :rules="emailRules"
           type="email"
           name="email"
           label="email"
-          :rules="emailRules"
           required
         />
         <VTextField
           v-model.trim.lazy="model.password"
+          :rules="passwordRules"
           type="password"
           name="password"
           label="password"
-          :rules="passwordRules"
           required
         />
         <VTextField
           v-model.trim.lazy="model.confirm"
+          :rules="confirmRules"
           class="mb-4"
           type="password"
           name="confirm password"
           label="confirm your password"
-          :rules="confirmRules"
           required
         />
         <VBtn
-          class="w-50 mb-2 mx-auto"
-          type="submit"
           :disabled="!isValid"
           :loading="isSubmitPending"
+          class="w-50 mb-2 mx-auto"
+          type="submit"
         >
           sign up
         </VBtn>
@@ -105,7 +105,7 @@ const nameRules = [
       return true;
     }
 
-    return `Name must be minimum ${MIN_USER_NAME_LENGTH}`;
+    return `Name must be minimum ${MIN_USER_NAME_LENGTH} characters`;
   },
 ];
 
