@@ -27,3 +27,9 @@ export interface ArticleContent extends MarkdownParsedContent {
 }
 
 export type ArticleListItem = Pick<ArticleContent, '_path' | 'title' | 'description' | 'image' | 'keywords'>;
+
+export interface ArticlesStats {
+  views: number;
+  rate: number;
+  ratings: number;
+}
