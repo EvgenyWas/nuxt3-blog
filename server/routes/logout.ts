@@ -1,18 +1,11 @@
-import { H3Event } from 'h3';
-
 import { userIdentitySchema } from '../schemas';
 import { AUTH_PROVIDERS, COOKIE_NAMES } from '~/configs/properties';
 import { googleOAuthClient, octokitOAuthApp } from '~/server/services';
 import type { UserIdentity } from '~/server/types';
+import { cleanAuth } from '~/server/utils';
 import { base64ToString } from '~/utils/converters';
 
 const DEFAULT_LOCATION = '/';
-
-const clean = (event: H3Event) => {
-  setResponseHeader(event, 'Authorization', '');
-  deleteCookie(event, COOKIE_NAMES.refreshToken);
-  deleteCookie(event, COOKIE_NAMES.userIdentity);
-};
 
 export default defineEventHandler(async (event) => {
   const location = getRequestHeader(event, 'Location') ?? DEFAULT_LOCATION;
@@ -22,7 +15,7 @@ export default defineEventHandler(async (event) => {
   try {
     identity = userIdentitySchema.parse(JSON.parse(base64ToString(identityCookie)));
   } catch (error) {
-    clean(event);
+    cleanAuth(event);
 
     return await sendRedirect(event, location, 302);
   }
@@ -44,7 +37,7 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  clean(event);
+  cleanAuth(event);
 
   return await sendRedirect(event, location, 302);
 });
