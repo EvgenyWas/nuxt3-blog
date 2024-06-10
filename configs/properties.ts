@@ -50,3 +50,4 @@ export const ARTICLE_TOPICS = [
 ];
 export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design', 'fundamentals', 'perfomance', 'refactoring'] as const;
 export const MAX_ARTICLE_RATE = 5;
+export const ARTICLE_RATE_MAX_AGE = 30 * 24 * 60 * 60;
