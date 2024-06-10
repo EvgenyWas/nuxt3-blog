@@ -1,3 +1,5 @@
+import type { Profile } from '~/types/user';
+
 export const NAV_PUBLIC_LINKS = [
   { to: '/about', title: 'About' },
   { to: '/articles', title: 'Articles' },
@@ -13,6 +15,18 @@ export const FOOTER_LINKS = [
 ];
 
 export const MIN_USER_NAME_LENGTH = 3;
+export const MAX_USER_SOCIALS = 4;
+export const MAX_USER_AVATAR_SIZE = 3 * 1024 * 1024;
+export const USER_AVATAR_FILE_TYPES = 'image/*' as const;
+export const USER_PROFILE_PICK_PATHS: Array<(keyof Omit<Profile, 'id'>)[number]> = [
+  'name',
+  'email',
+  'avatar',
+  'description',
+  'address',
+  'phone',
+  'socials',
+] as const;
 
 export const COOKIE_NAMES = {
   refreshToken: 'NUXT3_BLOG_RT',
@@ -35,4 +49,4 @@ export const ARTICLE_TOPICS = [
   { name: 'web', title: 'WEB', emoji: '👾' },
 ];
 export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design', 'fundamentals', 'perfomance', 'refactoring'] as const;
-export const MAX_ARTICLE_RATE = 5 as const;
+export const MAX_ARTICLE_RATE = 5;
