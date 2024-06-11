@@ -24,6 +24,14 @@
         :to="link.to"
       />
 
+      <VDivider class="my-6" />
+
+      <VListItem
+        title="Go back to the blog"
+        prepend-icon="fas fa-chevron-left"
+        to="/"
+      />
+
       <template #append>
         <VImg
           :class="{ 'icon--dark': isDark }"
