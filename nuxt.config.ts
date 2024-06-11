@@ -36,9 +36,9 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/signup': { prerender: true },
-    '/login': { prerender: true },
-    '/profile/**': { ssr: false },
+    '/signup': { prerender: true, headers: { 'X-Robots-Tag': 'noindex' } },
+    '/login': { prerender: true, headers: { 'X-Robots-Tag': 'noindex' } },
+    '/profile/**': { ssr: false, headers: { 'X-Robots-Tag': 'noindex' } },
   },
   content: {
     highlight: {
