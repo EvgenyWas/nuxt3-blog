@@ -1,10 +1,17 @@
-import { createVuetify } from 'vuetify';
+import { createVuetify, type DefaultsInstance } from 'vuetify';
 import { md3 } from 'vuetify/blueprints';
 import { aliases, fa } from 'vuetify/iconsets/fa';
 
-const defaults = {
+const defaults: DefaultsInstance = {
   VTextField: {
-    density: 'compact',
+    density: 'comfortable',
+    variant: 'solo-filled',
+    clearable: true,
+  },
+  VFileInput: {
+    density: 'comfortable',
+    variant: 'solo-filled',
+    clearable: true,
   },
   VSnackbar: {
     closeOnBack: false,
@@ -13,6 +20,9 @@ const defaults = {
     elevation: 24,
     color: 'surface',
     location: 'right bottom',
+  },
+  VTooltip: {
+    openDelay: 200,
   },
 };
 
