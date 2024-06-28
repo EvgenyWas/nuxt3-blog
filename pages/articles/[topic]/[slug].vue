@@ -131,7 +131,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es';
 import { ARTICLE_RATE_MAX_AGE, MAX_ARTICLE_RATE } from '~/configs/properties';
-import type { ArticleContent, ArticlesStats } from '~/types/responses';
+import type { ArticleContent } from '~/types/responses';
 
 type ArticlePageTransition = 'slide-left' | 'slide-right' | 'fade';
 
@@ -151,9 +151,10 @@ definePageMeta({
 const pageTransition = useState<ArticlePageTransition>('article-page-transition');
 const route = useRoute();
 const { openSuccessfulSnackbar, openErrorSnackbar } = useSnackbar();
+const { fetchArticleStats, updateArticleRate, updateArticleViews } = usePublicAPI();
 
-const topic = route.params.topic;
-const title = route.params.slug;
+const topic = route.params.topic as string;
+const title = route.params.slug as string;
 
 const rateCookie = useCookie(`article-rate-${topic}-${title}`, { maxAge: ARTICLE_RATE_MAX_AGE });
 
@@ -169,7 +170,7 @@ if (!article.value || error.value) {
 useSeoMeta({ title: article.value?.title, description: article.value?.description });
 
 const { data: stats, pending: statsPending } = await useLazyAsyncData(
-  () => $fetch<ArticlesStats>('/api/public/article/stats', { params: { topic, title } }),
+  () => fetchArticleStats({ params: { topic, title } }),
   { deep: false },
 );
 
@@ -189,7 +190,7 @@ const nextSibling = computed(() => siblings.value?.[1] as ArticleContent | undef
 
 const rateArticle = debounce(async (rate: number | string) => {
   try {
-    await $fetch('/api/public/article/stats/rate', { method: 'PUT', params: { topic, title }, body: { rate } });
+    await updateArticleRate({ params: { topic, title }, body: { rate } });
     rateCookie.value = 'true';
     openSuccessfulSnackbar('Thank you! Your rating has been recorded.');
   } catch (error) {
@@ -222,7 +223,7 @@ onMounted(() => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             observer.unobserve(viewsObserverTarget);
-            $fetch('/api/public/article/stats/views', { method: 'PUT', params: { topic, title } });
+            updateArticleViews({ params: { topic, title } });
           }
         });
       },
