@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import AuthProviders from '~/components/AuthProviders.vue';
-import type { LoginResponse } from '~/types/responses';
 
 definePageMeta({
   layout: 'empty',
@@ -73,6 +72,7 @@ definePageMeta({
 
 const router = useRouter();
 
+const { loginWithEmailAndPassword } = useAuthAPI();
 const { openErrorSnackbar } = useSnackbar();
 
 const model = reactive({
@@ -100,8 +100,7 @@ const passwordRules = [
 const submit = async () => {
   isSubmitPending.value = true;
   try {
-    const { token, profile } = await $fetch<LoginResponse>('/api/auth/login', {
-      method: 'POST',
+    const { token, profile } = await loginWithEmailAndPassword({
       body: { email: model.email, password: stringToBase64(model.password) },
     });
 

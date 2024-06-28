@@ -81,13 +81,13 @@
 <script setup lang="ts">
 import AuthProviders from '~/components/AuthProviders.vue';
 import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import type { SignupResponse } from '~/types/responses';
 
 definePageMeta({
   layout: 'empty',
 });
 
 const { openErrorSnackbar } = useSnackbar();
+const { signupWithEmailAndPassword } = useAuthAPI();
 
 const model = reactive({
   name: '',
@@ -136,8 +136,7 @@ const confirmRules = [
 const submit = async () => {
   isSubmitPending.value = true;
   try {
-    const { token, profile } = await $fetch<SignupResponse>('/api/auth/signup', {
-      method: 'POST',
+    const { token, profile } = await signupWithEmailAndPassword({
       body: { email: model.email, name: model.name, password: stringToBase64(model.password) },
     });
 
