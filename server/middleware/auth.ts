@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
       return sendError(
         event,
-        createError({ statusCode: 400, statusMessage: 'User identity is not provided or incorrect' }),
+        createError({ statusCode: 403, statusMessage: 'User identity is not provided or incorrect' }),
       );
     }
 

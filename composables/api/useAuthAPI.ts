@@ -1,5 +1,5 @@
 import type { FetchOptions } from 'ofetch';
-import type { LoginResponse, SignupResponse } from '~/types/responses';
+import type { LoginResponse, SignupResponse, TokenRefreshResponse } from '~/types/responses';
 
 interface LoginOptions extends FetchOptions {
   body: {
@@ -17,11 +17,21 @@ interface SignupOptions extends FetchOptions {
 }
 
 export default function useAuthAPI() {
+  const headers = useRequestHeaders();
+  const event = useRequestEvent();
+
   const loginWithEmailAndPassword = (options: LoginOptions) =>
     $fetch<LoginResponse>('/api/auth/login', { ...options, method: 'POST' });
 
   const signupWithEmailAndPassword = (options: SignupOptions) =>
     $fetch<SignupResponse>('/api/auth/signup', { ...options, method: 'POST' });
 
-  return { loginWithEmailAndPassword, signupWithEmailAndPassword };
+  const refreshAccessToken = (options = {} as FetchOptions) =>
+    fetchWithCookie<TokenRefreshResponse>(event, '/api/auth/token/refresh', {
+      headers,
+      ...options,
+      method: 'POST',
+    });
+
+  return { loginWithEmailAndPassword, signupWithEmailAndPassword, refreshAccessToken };
 }

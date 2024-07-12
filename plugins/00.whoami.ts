@@ -1,11 +1,10 @@
-import type { WhoamiResponse } from '~/types/responses';
-
 export default defineNuxtPlugin(async () => {
   const user = useUser();
   const auth = useAuth();
+  const { fetchWhoami } = useUserAPI();
 
   try {
-    const { data, error } = await useAPIClient<WhoamiResponse>('/api/user/whoami');
+    const { data, error } = await useAsyncData('whoami', () => fetchWhoami());
     if (error.value) {
       throw error.value;
     }
