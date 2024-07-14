@@ -30,14 +30,12 @@ import { truncate } from 'lodash-es';
 
 const MAX_SNACKBAR_TEXT_LENGTH = 120;
 
-const { initTheme } = useColorTheme();
 const { snackbar } = useSnackbar();
+const { initTheme } = useColorTheme();
 
 const snackbarText = computed<string>(() =>
   truncate(snackbar.state.value.current?.text, { length: MAX_SNACKBAR_TEXT_LENGTH }),
 );
 
-onMounted(() => {
-  initTheme();
-});
+initTheme();
 </script>
