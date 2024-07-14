@@ -1,5 +1,4 @@
-import { pick } from 'lodash-es';
-import { COOKIE_NAMES, USER_PROFILE_PICK_PATHS } from '~/configs/properties';
+import { COOKIE_NAMES } from '~/configs/properties';
 import Profile from '~/server/models/user/profile.model';
 import type { UserIdentity } from '~/server/types';
 import { base64ToString } from '~/utils/converters';
@@ -21,7 +20,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 404, statusMessage: 'User profile is not found' });
     }
 
-    return { ...pick(profile, USER_PROFILE_PICK_PATHS), id: identity.id };
+    return profile.toObject();
   } catch (error: any) {
     return sendError(event, error);
   }

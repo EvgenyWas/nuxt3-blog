@@ -32,4 +32,6 @@ export interface ArticlesStats {
   views: number;
   rate: number;
   ratings: number;
+  topic?: string;
+  title?: string;
 }

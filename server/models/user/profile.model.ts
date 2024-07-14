@@ -59,6 +59,18 @@ const schema = new Schema(
   { timestamps: true },
 );
 
+schema.set('toObject', {
+  transform: function (_, ret) {
+    ret.id = ret._id.toString();
+    delete ret._id;
+    delete ret.__v;
+    delete ret.auth_provider;
+    delete ret.password;
+
+    return ret;
+  },
+});
+
 const Profile = model('user_profile', schema);
 
 export default Profile;

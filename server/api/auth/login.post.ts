@@ -1,6 +1,6 @@
-import { pick } from 'lodash-es';
 import { z } from 'zod';
-import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE, USER_PROFILE_PICK_PATHS } from '~/configs/properties';
+
+import { AUTH_PROVIDERS, COOKIE_NAMES, USER_IDENTITY_MAX_AGE } from '~/configs/properties';
 import Profile from '~/server/models/user/profile.model';
 import { jwtGenerator } from '~/server/services';
 import type { Profile as IProfile } from '~/types/user';
@@ -8,8 +8,8 @@ import { stringToBase64 } from '~/utils/converters';
 import { emailValidator, passwordValidator } from '~/utils/validators';
 
 const anotherAuthProviderMessage =
-  // eslint-disable-next-line max-len
-  'You tried signing in with a different authentication method than the one you used during signup. Please try again using your original authentication method.';
+  'You tried signing in with a different authentication method than the one you used during signup. ' +
+  'Please try again using your original authentication method.';
 
 const loginPayloadSchema = z.object({
   email: emailValidator,
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 403, statusMessage: 'Password is incorrect' });
     }
 
-    Object.assign(profile, { id: user._id.toString(), ...pick(profile, USER_PROFILE_PICK_PATHS) });
+    Object.assign(profile, user.toObject());
   } catch (error: any) {
     return sendError(event, error);
   }

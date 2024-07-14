@@ -7,4 +7,6 @@ export interface Profile {
   address: string;
   phone: string;
   socials: Array<string>;
+  createdAt?: string;
+  updatedAt?: string;
 }

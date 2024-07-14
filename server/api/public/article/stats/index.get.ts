@@ -1,7 +1,8 @@
-import { pick } from 'lodash-es';
 import { ARTICLE_TOPICS } from '~/configs/properties';
 import ArticleStats from '~/server/models/article/stats.model';
 import type { ArticlesStats } from '~/types/responses';
+
+const DEFAULT_STATS: ArticlesStats = { views: 0, rate: 0, ratings: 0 };
 
 export default defineEventHandler(async (event) => {
   const { topic, title } = getQuery<{ topic?: string; title?: string }>(event);
@@ -15,8 +16,8 @@ export default defineEventHandler(async (event) => {
 
   const stats = await ArticleStats.findOne({ topic, title });
   if (stats) {
-    return pick(stats, ['views', 'rate', 'ratings']) as ArticlesStats;
+    return stats.toObject();
   } else {
-    return { views: 0, rate: 0, ratings: 0 } as ArticlesStats;
+    return DEFAULT_STATS;
   }
 });

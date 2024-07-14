@@ -6,8 +6,8 @@ import { octokitOAuthApp } from '~/server/services';
 import { stringToBase64 } from '~/utils/converters';
 
 const anotherAuthProviderMessage =
-  // eslint-disable-next-line max-len
-  'You tried signing in with a different authentication method than the one you used during signup. Please try again using your original authentication method.';
+  'You tried signing in with a different authentication method than the one you used during signup. ' +
+  'Please try again using your original authentication method.';
 
 export default defineEventHandler(async (event) => {
   const queries = getQuery(event);
