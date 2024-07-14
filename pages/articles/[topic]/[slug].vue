@@ -9,7 +9,7 @@
               <span
                 v-if="stats || !statsPending"
                 v-bind="props"
-                class="article-header-title-badge d-inline-flex align-center px-1 text-caption bg-grey rounded-xl"
+                class="article-header-title-badge d-inline-flex align-center px-2 text-caption bg-grey rounded-xl"
               >
                 {{ stats?.views }}&nbsp;
                 <VIcon
@@ -56,33 +56,35 @@
       class="px-0"
       tag="section"
     >
-      <VRow v-if="stats || !statsPending">
-        <VCol class="d-flex flex-column align-center justify-center">
-          <h4 class="text-h5 mb-2">⭐ Rating overview ⭐</h4>
-          <p
-            v-if="stats?.rate"
-            class="text-h4"
-          >
-            {{ stats.rate }}
-            <span class="text-h6 ml-n3">&nbsp;/ {{ MAX_ARTICLE_RATE }}</span>
-          </p>
-          <p v-else>Be the first to rate this article 😉</p>
-          <VRating
-            v-if="!rateCookie"
-            v-model="rateModelValue"
-            item-aria-label="rate {0} of {1}"
-            color="yellow-darken-3"
-            hover
-            @update:model-value="rateArticle"
-          />
-          <p
-            v-if="stats?.ratings"
-            class="px-3"
-          >
-            {{ stats.ratings }} ratings ✨
-          </p>
-        </VCol>
-      </VRow>
+      <VExpandTransition>
+        <VRow v-if="hasRatingOverview">
+          <VCol class="d-flex flex-column align-center justify-center">
+            <h4 class="text-h5 mb-2">⭐ Rating overview ⭐</h4>
+            <p
+              v-if="stats?.rate"
+              class="text-h4"
+            >
+              {{ stats.rate }}
+              <span class="text-h6 ml-n3">&nbsp;/ {{ MAX_ARTICLE_RATE }}</span>
+            </p>
+            <p v-else>Be the first to rate this article 😉</p>
+            <VRating
+              v-if="!rateCookie"
+              v-model="rateModelValue"
+              item-aria-label="rate {0} of {1}"
+              color="yellow-darken-3"
+              hover
+              @update:model-value="rateArticle"
+            />
+            <p
+              v-if="ratings"
+              class="px-3"
+            >
+              {{ ratings }}
+            </p>
+          </VCol>
+        </VRow>
+      </VExpandTransition>
 
       <VRow>
         <VCol cols="6">
@@ -129,7 +131,6 @@
 </template>
 
 <script setup lang="ts">
-import { debounce } from 'lodash-es';
 import { ARTICLE_RATE_MAX_AGE, MAX_ARTICLE_RATE } from '~/configs/properties';
 import type { ArticleContent } from '~/types/responses';
 
@@ -158,7 +159,7 @@ const title = route.params.slug as string;
 
 const rateCookie = useCookie(`article-rate-${topic}-${title}`, { maxAge: ARTICLE_RATE_MAX_AGE });
 
-const rateModelValue = ref<number>(5);
+const rateModelValue = ref<number>(0);
 
 const { data: article, error } = await useAsyncData(route.path, () =>
   queryContent<ArticleContent>(route.path).sort({ id: 1, $numeric: true }).findOne(),
@@ -188,7 +189,17 @@ const prevSibling = computed(() => siblings.value?.[0] as ArticleContent | undef
 
 const nextSibling = computed(() => siblings.value?.[1] as ArticleContent | undefined);
 
-const rateArticle = debounce(async (rate: number | string) => {
+const hasRatingOverview = computed<boolean>(() => !!stats.value || !statsPending.value);
+
+const ratings = computed<string | null>(() => {
+  if (stats.value?.ratings) {
+    return `${stats.value.ratings} rating${stats.value.ratings > 1 ? 's' : ''} ✨`;
+  } else {
+    return null;
+  }
+});
+
+const rateArticle = async (rate: number | string) => {
   try {
     await updateArticleRate({ params: { topic, title }, body: { rate } });
     rateCookie.value = 'true';
@@ -196,7 +207,7 @@ const rateArticle = debounce(async (rate: number | string) => {
   } catch (error) {
     openErrorSnackbar(error);
   }
-}, 1000);
+};
 
 const onPrevClick = () => {
   pageTransition.value = 'slide-right';
