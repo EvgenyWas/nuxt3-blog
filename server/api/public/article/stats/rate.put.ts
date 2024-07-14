@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const ratings = stats.ratings + 1;
-  const rate = (stats.rate + bodyRate) / ratings;
+  const rate = ((stats.rate + bodyRate) / ratings).toFixed(1);
 
   await stats.updateOne({ ratings, rate });
 
