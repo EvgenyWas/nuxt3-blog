@@ -153,6 +153,7 @@ const pageTransition = useState<ArticlePageTransition>('article-page-transition'
 const route = useRoute();
 const { openSuccessfulSnackbar, openErrorSnackbar } = useSnackbar();
 const { fetchArticleStats, updateArticleRate, updateArticleViews } = usePublicAPI();
+const { fetchArticle, fetchArticleSiblings } = useContentAPI();
 
 const topic = route.params.topic as string;
 const title = route.params.slug as string;
@@ -161,9 +162,7 @@ const rateCookie = useCookie(`article-rate-${topic}-${title}`, { maxAge: ARTICLE
 
 const rateModelValue = ref<number>(0);
 
-const { data: article, error } = await useAsyncData(route.path, () =>
-  queryContent<ArticleContent>(route.path).sort({ id: 1, $numeric: true }).findOne(),
-);
+const { data: article, error } = await useAsyncData(route.path, () => fetchArticle(route.path), { deep: false });
 if (!article.value || error.value) {
   throw createError({ statusCode: 404, data: { to: '/articles' }, fatal: true });
 }
@@ -175,15 +174,7 @@ const { data: stats, pending: statsPending } = await useLazyAsyncData(
   { deep: false },
 );
 
-const { data: siblings } = await useLazyAsyncData(
-  () =>
-    queryContent<ArticleContent>()
-      .only(['_path', 'title'])
-      .sort({ id: 1, $numeric: true })
-      .where({ _path: { $contains: `/articles/${topic}` } })
-      .findSurround(route.path),
-  { deep: false },
-);
+const { data: siblings } = await useLazyAsyncData(() => fetchArticleSiblings(route.path, topic), { deep: false });
 
 const prevSibling = computed(() => siblings.value?.[0] as ArticleContent | undefined);
 

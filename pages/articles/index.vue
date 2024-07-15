@@ -104,22 +104,17 @@ import type { VInfiniteScroll } from 'vuetify/components';
 import { ARTICLE_KEYWORDS, ARTICLE_TOPICS } from '~/configs/properties';
 import type { ArticleListItem } from '~/types/responses';
 
-const START_LIMIT = 10;
-const EXTRA_LIMIT = 10;
-const ARTICLE_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image', 'keywords'];
-
 useSeoMeta({ title: 'Articles', description: 'All the blog articles' });
 
 const { mobile } = useDisplay();
 const { openErrorSnackbar } = useSnackbar();
+const { fetchPaginalArticlesList } = useContentAPI();
 
 const keywords = ref<Array<(typeof ARTICLE_KEYWORDS)[number]>>([]);
 
 const extraArticles = reactive<Array<ArticleListItem>>([]);
 
-const { data, error } = await useAsyncData('articles', () =>
-  queryContent<ArticleListItem>('articles').only(ARTICLE_ONLY).limit(START_LIMIT).find(),
-);
+const { data, error } = await useAsyncData('articles', () => fetchPaginalArticlesList());
 if (!data.value || error.value) {
   throw createError({ statusCode: 404, fatal: true });
 }
@@ -138,11 +133,7 @@ const getTopic = (path: string) => path.split('/')[2];
 
 const onInfiniteScrollLoad: VInfiniteScroll['$props']['onLoad'] = async ({ done }) => {
   try {
-    const loadedArticles = await queryContent<ArticleListItem>('articles')
-      .only(ARTICLE_ONLY)
-      .skip(articles.value.length)
-      .limit(EXTRA_LIMIT)
-      .find();
+    const loadedArticles = await fetchPaginalArticlesList({ skip: articles.value.length });
     if (!loadedArticles.length) {
       return done('empty');
     }

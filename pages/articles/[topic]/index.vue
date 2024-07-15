@@ -28,11 +28,9 @@
 
 <script setup lang="ts">
 import { ARTICLE_TOPICS } from '~/configs/properties';
-import type { ArticleListItem } from '~/types/responses';
-
-const ARTICLE_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image'];
 
 const route = useRoute();
+const { fetchArticlesListByTopic } = useContentAPI();
 
 const topic = ARTICLE_TOPICS.find(({ name }) => name === route.params.topic);
 if (!topic) {
@@ -40,7 +38,7 @@ if (!topic) {
 }
 
 const { data: articles, error } = await useAsyncData(`articles/${topic.name}`, () =>
-  queryContent<ArticleListItem>(`articles/${topic.name}`).only(ARTICLE_ONLY).find(),
+  fetchArticlesListByTopic(topic.name),
 );
 if (error.value) {
   throw createError({ statusCode: 400, fatal: true });

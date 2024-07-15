@@ -209,38 +209,29 @@
 </template>
 
 <script setup lang="ts">
-import type { ArticleListItem } from '~/types/responses';
+import { BEST_ARTICLES_LIMIT, MOST_VIEWED_ARTICLES_LIMIT } from '~/configs/properties';
 
 const ARTICLE_IMAGE_FALLBACK = 'storage/app/article-fallback?height=450';
-const ARTICLE_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image'];
-const MOST_VIEWED_ARTICLES_LIMIT = 5;
-const BEST_ARTICLES_LIMIT = 5;
 
 useHead({ link: [{ href: 'storage/app/home-parallax', as: 'image', type: 'image/webp', rel: 'preload' }] });
 useSeoMeta({
   title: 'Nuxt 3 blog',
   description:
-    // eslint-disable-next-line max-len
-    'Nuxt 3 blog is a pet-project of Yauheni Vasiukevich. It consists of a wide collection of articles on various web topics.',
+    'Nuxt 3 blog is a pet-project of Yauheni Vasiukevich. ' +
+    'It consists of a wide collection of articles on various Web development topics.',
 });
+
+const { fetchMostViewedArticlesList, fetchBestArticlesList } = useContentAPI();
 
 const {
   data: mostViewedArticles,
   pending: mostViewedArticlesPending,
   error: mostViewedArticlesError,
-} = await useLazyAsyncData(
-  'most-viewed-articles',
-  () => queryContent<ArticleListItem>('articles').only(ARTICLE_ONLY).limit(MOST_VIEWED_ARTICLES_LIMIT).find(),
-  { deep: false },
-);
+} = await useLazyAsyncData('most-viewed-articles', () => fetchMostViewedArticlesList(), { deep: false });
 
 const {
   data: bestArticles,
   pending: bestArticlesPending,
   error: bestArticlesError,
-} = await useLazyAsyncData(
-  'best-articles',
-  () => queryContent<ArticleListItem>('articles').only(ARTICLE_ONLY).limit(BEST_ARTICLES_LIMIT).find(),
-  { deep: false },
-);
+} = await useLazyAsyncData('best-articles', () => fetchBestArticlesList(), { deep: false });
 </script>
