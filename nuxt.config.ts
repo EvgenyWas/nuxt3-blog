@@ -51,4 +51,16 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['./composables', './composables/api', './utils'],
   },
+  hooks: {
+    'build:manifest': (manifest) => {
+      // solve this issue with blocking stylesheets in rendered HTML with inline styles https://github.com/nuxt/nuxt/issues/21821
+      for (const item of Object.values(manifest)) {
+        // find the manifest item with css reference
+        if (item.css) {
+          // clear all references to exclude from the rendered HTML links
+          item.css = [];
+        }
+      }
+    },
+  },
 });
