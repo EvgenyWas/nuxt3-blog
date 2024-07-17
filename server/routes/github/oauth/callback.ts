@@ -9,6 +9,8 @@ const anotherAuthProviderMessage =
   'You tried signing in with a different authentication method than the one you used during signup. ' +
   'Please try again using your original authentication method.';
 
+const undefinedEmailMessage = 'Email have not been provided. Please, check your GitHub account.';
+
 export default defineEventHandler(async (event) => {
   const queries = getQuery(event);
   try {
@@ -19,6 +21,11 @@ export default defineEventHandler(async (event) => {
     const { data: user } = await octokitRequest('GET /user', {
       headers: { authorization: `${auth.type} ${auth.token}` },
     });
+
+    if (!user.email) {
+      return await sendRedirect(event, `/github-oauth-error?code=400&message=${encodeURI(undefinedEmailMessage)}`);
+    }
+
     const existedProfile = await Profile.findOne({ email: user.email });
 
     let profile = existedProfile;

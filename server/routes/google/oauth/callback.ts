@@ -8,6 +8,8 @@ const anotherAuthProviderMessage =
   'You tried signing in with a different authentication method than the one you used during signup. ' +
   'Please try again using your original authentication method.';
 
+const undefinedEmailMessage = 'Email have not been provided. Please, check your Google account.';
+
 export default defineEventHandler(async (event) => {
   const queries = getQuery(event);
   try {
@@ -19,6 +21,11 @@ export default defineEventHandler(async (event) => {
     const user = await $fetch<GoogleUserInfoResponse>('https://www.googleapis.com/userinfo/v2/me', {
       headers: { Authorization: `Bearer ${tokens.access_token}` },
     });
+
+    if (!user.email) {
+      return await sendRedirect(event, `/google-oauth-error?code=400&message=${encodeURI(undefinedEmailMessage)}`);
+    }
+
     const existedProfile = await Profile.findOne({ email: user.email });
 
     let profile = existedProfile;
