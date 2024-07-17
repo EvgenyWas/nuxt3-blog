@@ -57,6 +57,7 @@
             @click="toggleDrawer"
           />
         </ClientOnly>
+
         <div
           v-if="!mobile"
           class="toolbar"
@@ -77,6 +78,7 @@
               />
             </VFabTransition>
           </VBtn>
+
           <VMenu v-if="auth.authorized">
             <template #activator="{ props }">
               <VBtn
@@ -85,6 +87,7 @@
                 icon="fas fa-ellipsis-v"
               />
             </template>
+
             <VList>
               <VListItem
                 :title="user.name"
@@ -97,7 +100,9 @@
                   />
                 </template>
               </VListItem>
+
               <VDivider class="my-2" />
+
               <VListItem
                 v-for="link in NAV_USER_LINKS"
                 :key="link.to"
@@ -105,7 +110,9 @@
                 :prepend-icon="link.icon"
                 :to="link.to"
               />
+
               <VDivider class="my-2" />
+
               <VListItem
                 title="Logout"
                 prepend-icon="fas fa-sign-out-alt"
@@ -113,6 +120,7 @@
               />
             </VList>
           </VMenu>
+
           <VBtn
             v-if="!auth.authorized"
             variant="plain"
@@ -120,6 +128,7 @@
           >
             Log In
           </VBtn>
+
           <VBtn
             v-if="!auth.authorized"
             variant="tonal"
@@ -151,7 +160,9 @@
             />
           </template>
         </VListItem>
+
         <VDivider class="my-2" />
+
         <VListItem
           v-for="link in NAV_USER_LINKS"
           :key="link.to"
@@ -177,14 +188,37 @@
         to="/signup"
         slim
       />
+
       <VDivider class="my-2" />
+
+      <VListItem
+        title="Light / Dark"
+        slim
+      >
+        <template #append>
+          <VSwitch
+            :model-value="isDark"
+            false-icon="fas fa-sun"
+            true-icon="fas fa-moon"
+            density="compact"
+            inset
+            hide-details
+            @update:model-value="toggleTheme"
+          />
+        </template>
+      </VListItem>
+
+      <VDivider class="my-2" />
+
       <VListItem
         v-for="link in NAV_PUBLIC_LINKS"
         :key="link.to"
         :title="link.title"
         :to="link.to"
       />
+
       <VDivider class="my-2" />
+
       <VListItem
         title="Logout"
         prepend-icon="fas fa-sign-out-alt"
@@ -259,6 +293,7 @@
               </NuxtLink>
             </VCol>
           </VRow>
+
           <VRow
             tag="p"
             justify="center"
