@@ -1,4 +1,5 @@
 import { H3Event } from 'h3';
+import { MongooseError } from 'mongoose';
 
 import { COOKIE_NAMES } from '~/configs/properties';
 import { stringToBase64 } from '~/utils/converters';
@@ -20,4 +21,8 @@ export function cleanAuth(event: H3Event): void {
   setResponseHeader(event, 'Authorization', '');
   deleteCookie(event, COOKIE_NAMES.refreshToken);
   deleteCookie(event, COOKIE_NAMES.userIdentity);
+}
+
+export function isMongooseError(value: unknown): value is MongooseError {
+  return value instanceof MongooseError;
 }
