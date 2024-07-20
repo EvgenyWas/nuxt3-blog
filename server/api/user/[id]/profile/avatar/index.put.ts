@@ -5,16 +5,16 @@ import { type UploadApiErrorResponse, v2 as cloudinary } from 'cloudinary';
 import { fileToDataURI } from '~/server/utils';
 
 export default defineEventHandler(async (event) => {
-  const userId = getRouterParam(event, 'id');
-  if (!Number(userId)) {
-    return sendError(event, createError({ statusCode: 400, statusMessage: 'Incorrect user ID.' }));
+  const id = getRouterParam(event, 'id');
+  if (!id) {
+    return sendError(event, createError({ statusCode: 400, statusMessage: 'User ID is not provided' }));
   }
 
   let dataURI;
   let fileName;
   try {
     const formData = await readFormData(event);
-    const file = formData.get('image') as File;
+    const file = formData.get('avatar') as File;
     dataURI = await fileToDataURI(file);
     fileName = path.parse(file.name).name;
   } catch (error) {
@@ -28,10 +28,10 @@ export default defineEventHandler(async (event) => {
     const img = await cloudinary.uploader.upload(dataURI, {
       resource_type: 'image',
       public_id: fileName,
-      folder: `user/${userId}`,
+      folder: `users/${id}`,
     });
 
-    return img.public_id;
+    return `/storage/users/${id}/${img.public_id}`;
   } catch (error) {
     const cloudinaryError = error as UploadApiErrorResponse;
     return sendError(

@@ -19,7 +19,7 @@ type Payload = z.infer<typeof signupPayloadSchema>;
 export default defineEventHandler(async (event) => {
   let payload: Payload;
   try {
-    payload = await readValidatedBody(event, (payload) => signupPayloadSchema.parse(payload));
+    payload = await readValidatedBody(event, (body) => signupPayloadSchema.parse(body));
   } catch (error) {
     return sendError(event, createError({ statusCode: 400, statusMessage: 'Payload is incorrect' }));
   }
