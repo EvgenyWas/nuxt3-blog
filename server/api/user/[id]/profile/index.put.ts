@@ -1,7 +1,7 @@
 import Profile from '~/server/models/user/profile.model';
 import { userProfileSchema } from '~/server/schemas';
 import { isMongooseError } from '~/server/utils';
-import { Profile as ProfileType } from '~/types/user';
+import type { Profile as ProfileType } from '~/types/user';
 import { isZodError } from '~/utils/helpers';
 
 export default defineEventHandler(async (event) => {
