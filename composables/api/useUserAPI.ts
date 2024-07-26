@@ -1,7 +1,14 @@
 import type { FetchOptions } from 'ofetch';
 import type { WhoamiResponse } from '~/types/responses';
+import type { Profile } from '~/types/user';
 
-interface WhoamiOptions extends FetchOptions {}
+interface UpdateProfileOptions extends FetchOptions {
+  body: Omit<Profile, 'id' | 'email'>;
+}
+
+interface UpdateProfileAvatarOptions extends FetchOptions {
+  body: FormData;
+}
 
 const SOURCE_FETCH_OPTIONS: FetchOptions = {
   retry: 1,
@@ -37,8 +44,14 @@ export default function useUserAPI() {
     },
   };
 
-  const fetchWhoami = (options: WhoamiOptions = {}) =>
+  const fetchWhoami = (options: FetchOptions = {}) =>
     fetchWithCookie<WhoamiResponse>(event, '/api/user/whoami', { ...defaultOptions, ...options, method: 'GET' });
 
-  return { fetchWhoami };
+  const updateProfile = (id: string, options: UpdateProfileOptions) =>
+    $fetch<Profile>(`/api/user/${id}/profile`, { ...defaultOptions, ...options, method: 'PUT' });
+
+  const updateProfileAvatar = (id: string, options: UpdateProfileAvatarOptions) =>
+    $fetch<string>(`/api/user/${id}/profile/avatar`, { ...defaultOptions, ...options, method: 'PUT' });
+
+  return { fetchWhoami, updateProfile, updateProfileAvatar };
 }

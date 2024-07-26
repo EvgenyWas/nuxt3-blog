@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import { base64Validator, emailValidator, phoneValidator, urlValidator } from '~/utils/validators';
+import { base64Validator, phoneValidator, urlValidator } from '~/utils/validators';
 
 export const userIdentitySchema = z
   .object({
@@ -11,15 +11,13 @@ export const userIdentitySchema = z
   .required()
   .strict();
 
-export const userProfileSchema = z
+export const userUpdateProfileSchema = z
   .object({
-    id: z.string().or(z.null()),
     name: z.string().min(MIN_USER_NAME_LENGTH),
-    email: emailValidator,
     avatar: z.string().refine((value) => !base64Validator.safeParse(value).success),
-    description: z.string().optional(),
-    address: z.string().optional(),
-    phone: phoneValidator.optional(),
+    description: z.string(),
+    address: z.string(),
+    phone: phoneValidator.or(z.literal('')),
     socials: z.array(urlValidator.or(z.literal(''))).max(MAX_USER_SOCIALS),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
