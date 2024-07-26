@@ -1,4 +1,4 @@
-import { isError, isString } from 'lodash-es';
+import { get, isError, isString } from 'lodash-es';
 import { VSnackbar } from 'vuetify/lib/components/index.mjs';
 
 interface Snackbar
@@ -27,18 +27,21 @@ interface SnackbarState {
   isActive: boolean;
 }
 
+// @ts-expect-error
+const getMessage = (value: unknown) => value?.statusMessage || value?.message;
+
 const createSnackbar = (value: unknown, options = {} as SnackbarOptions): Snackbar => {
   switch (true) {
     case isString(value):
       return { text: value, ...options };
     // @ts-expect-error
     case isNuxtError(value):
-      return { text: value.statusMessage || value.message };
+      return { text: getMessage(value) };
     case isError(value):
-      return { text: value.message, ...options };
+      return { text: getMessage(value), ...options };
     default:
       try {
-        return { text: JSON.stringify(value), ...options };
+        return { text: get(value, 'statusMessage') || JSON.stringify(value), ...options };
       } catch (error) {
         return options;
       }
