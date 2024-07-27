@@ -59,6 +59,6 @@ export default defineEventHandler(async (event) => {
 
     return { token: accessToken, profile };
   } catch (error) {
-    return sendError(event, createError({ statusCode: 500, statusMessage: 'Internal server error' }));
+    return sendError(event, createError({ statusCode: 500, statusMessage: 'Internal Server Error' }));
   }
 });

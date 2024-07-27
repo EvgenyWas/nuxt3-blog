@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/named
 import { v2 as cloudinary } from 'cloudinary';
 
 export default defineEventHandler((event) => {
