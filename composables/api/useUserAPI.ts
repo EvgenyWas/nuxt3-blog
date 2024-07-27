@@ -27,7 +27,7 @@ export default function useUserAPI() {
     onRequest({ options }) {
       options.headers = new Headers(options.headers || {});
       if (auth.value.token) {
-        options.headers.append('Authorization', `Bearer ${auth.value.token}`);
+        options.headers.set('Authorization', `Bearer ${auth.value.token}`);
       } else {
         options.headers.delete('Authorization');
       }

@@ -16,6 +16,7 @@
             name="name"
             label="name"
             required
+            @click:clear="clearName"
           />
         </VCol>
 
@@ -26,6 +27,7 @@
           <VTextField
             v-model="model.description"
             label="description"
+            @click:clear="clearDescription"
           />
         </VCol>
 
@@ -36,6 +38,7 @@
           <VTextField
             v-model="model.address"
             label="address"
+            @click:clear="clearAddress"
           />
         </VCol>
 
@@ -47,11 +50,13 @@
             v-model="model.phone"
             :rules="phoneRules"
             label="phone"
+            @click:clear="clearPhone"
           />
         </VCol>
 
         <VCol>
           <VFileInput
+            v-model="avatar"
             :accept="USER_AVATAR_FILE_TYPES"
             :rules="avatarRules"
             class="cursor-pointer"
@@ -119,14 +124,18 @@ const USER_OMIT_PATHS = ['id', 'email'] as const;
 
 const user = useUser();
 const { openErrorSnackbar, openSuccessfulSnackbar } = useSnackbar();
+const { updateProfile, updateProfileAvatar } = useUserAPI();
 
-const model = reactive<Omit<Profile, 'id' | 'email'>>(omit(cloneDeep(user.value), USER_OMIT_PATHS));
+const initModel = () => omit(cloneDeep(user.value), USER_OMIT_PATHS);
+
+const model = reactive<Omit<Profile, 'id' | 'email'>>(initModel());
 
 const isValid = ref<boolean>(true);
 const isLoading = ref<boolean>(false);
+const avatar = ref<File | null>(null);
 
 const isSaveChangesBtnDisabled = computed<boolean>(
-  () => !isValid.value || isEqual(model, omit(user.value, USER_OMIT_PATHS)),
+  () => !isValid.value || (!avatar.value && isEqual(model, omit(user.value, USER_OMIT_PATHS))),
 );
 
 const nameRules = [
@@ -180,16 +189,35 @@ const socialRules = [
   },
 ];
 
-const changeSocial = (idx: number, value: string) => {
+const changeSocial = (idx: number, value: string | null) => {
   if (!isUndefined(model.socials[idx])) {
-    model.socials[idx] = value;
+    model.socials[idx] = value ?? '';
   }
 };
+
+const clearName = () => (model.name = '');
+
+const clearDescription = () => (model.description = '');
+
+const clearAddress = () => (model.address = '');
+
+const clearPhone = () => (model.phone = '');
 
 const saveChanges = async () => {
   try {
     isLoading.value = true;
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    let uploadedAvatar: string | undefined;
+    if (avatar.value) {
+      const avatarBody = new FormData();
+      avatarBody.append('avatar', avatar.value);
+      uploadedAvatar = await updateProfileAvatar(user.value.id as string, { body: avatarBody });
+    }
+
+    const profileBody = { ...omit(user.value, USER_OMIT_PATHS), ...model, avatar: uploadedAvatar || user.value.avatar };
+    const profile = await updateProfile(user.value.id as string, { body: profileBody });
+    user.value = profile;
+    Object.assign(model, initModel());
+    avatar.value = null;
     openSuccessfulSnackbar('Changes have been successfully saved 👌');
   } catch (error) {
     openErrorSnackbar(error);

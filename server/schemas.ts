@@ -14,7 +14,10 @@ export const userIdentitySchema = z
 export const userUpdateProfileSchema = z
   .object({
     name: z.string().min(MIN_USER_NAME_LENGTH),
-    avatar: z.string().refine((value) => !base64Validator.safeParse(value).success),
+    avatar: z
+      .string()
+      .refine((value) => !base64Validator.safeParse(value).success)
+      .or(z.literal('')),
     description: z.string(),
     address: z.string(),
     phone: phoneValidator.or(z.literal('')),

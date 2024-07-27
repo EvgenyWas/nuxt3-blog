@@ -1,3 +1,5 @@
+import { MongooseError } from 'mongoose';
+
 import Profile from '~/server/models/user/profile.model';
 import { userUpdateProfileSchema } from '~/server/schemas';
 import { isMongooseError } from '~/server/utils';
@@ -19,15 +21,18 @@ export default defineEventHandler(async (event) => {
       event,
       createError({
         statusCode: 400,
-        statusMessage: isZodError(error) ? error.errors[0].message : 'Payload is invalid',
+        statusMessage: (isZodError(error) && error.errors[0]?.message) || 'Payload is invalid',
       }),
     );
   }
 
   try {
-    const profile = await Profile.findOneAndUpdate(payload);
+    const profile = await Profile.findOneAndUpdate({ _id: id }, payload, { new: true });
+    if (!profile) {
+      throw new MongooseError('User with provided ID is not found');
+    }
 
-    return profile;
+    return profile.toObject();
   } catch (error) {
     return sendError(
       event,
