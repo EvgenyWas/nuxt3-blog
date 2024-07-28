@@ -37,7 +37,7 @@ const title = computed<string>(
 );
 
 const actionText = computed<string>(() => {
-  switch (route.query.to?.toString() || errorData.value.to) {
+  switch (route.query.to?.toString() || errorData.value?.to) {
     case '/articles':
       return 'all articles';
     case '/signup':
@@ -49,7 +49,7 @@ const actionText = computed<string>(() => {
   }
 });
 
-const onActionClick = () => navigateTo(route.query.to?.toString() || errorData.value.to || '/');
+const onActionClick = () => navigateTo(route.query.to?.toString() || errorData.value?.to || '/');
 </script>
 
 <style>
