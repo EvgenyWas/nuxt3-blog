@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -36,9 +37,10 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/signup': { prerender: true, headers: { 'X-Robots-Tag': 'noindex' } },
-    '/login': { prerender: true, headers: { 'X-Robots-Tag': 'noindex' } },
-    '/profile/**': { ssr: false, headers: { 'X-Robots-Tag': 'noindex' } },
+    '/**': { headers: { 'X-Robots-Tag': 'noindex' } },
+    '/signup': { ssr: false },
+    '/login': { ssr: false },
+    '/profile/**': { ssr: false },
   },
   content: {
     highlight: {
@@ -61,6 +63,9 @@ export default defineNuxtConfig({
           item.css = [];
         }
       }
+    },
+    close: () => {
+      mongoose.disconnect();
     },
   },
 });
