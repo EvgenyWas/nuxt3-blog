@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import { emailValidator, passwordValidator, base64Validator } from '~/utils/validators';
+import { emailValidator, passwordValidator, dataURIValidator } from '~/utils/validators';
 
 const schema = new Schema(
   {
@@ -26,7 +26,7 @@ const schema = new Schema(
     avatar: {
       type: String,
       validate: {
-        validator: (value?: string) => !base64Validator.safeParse(value).success,
+        validator: (value?: string) => !dataURIValidator.safeParse(value).success,
         message: 'Avatar in base64 format is forbidden.',
       },
       default: '',

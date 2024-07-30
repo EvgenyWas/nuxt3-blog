@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import { base64Validator, phoneValidator, urlValidator } from '~/utils/validators';
+import { dataURIValidator, phoneValidator, urlValidator } from '~/utils/validators';
 
 export const userIdentitySchema = z
   .object({
@@ -16,7 +16,7 @@ export const userUpdateProfileSchema = z
     name: z.string().min(MIN_USER_NAME_LENGTH),
     avatar: z
       .string()
-      .refine((value) => !base64Validator.safeParse(value).success)
+      .refine((value) => !dataURIValidator.safeParse(value).success)
       .or(z.literal('')),
     description: z.string(),
     address: z.string(),
