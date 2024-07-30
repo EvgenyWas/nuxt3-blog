@@ -8,10 +8,10 @@ export default defineNuxtConfig({
     layoutTransition: { name: 'fade', mode: 'out-in' },
   },
   runtimeConfig: {
-    cloudinaryCloudName: process.env.NUXT_CLOUDINARY_CLOUD_NAME,
-    cloudinaryApiKey: process.env.NUXT_CLOUDINARY_API_KEY,
-    cloudinaryApiSecret: process.env.NUXT_CLOUDINARY_API_SECRET,
-    mongodbUrl: process.env.NUXT_MONGODB_URL,
+    cloudinaryCloudName: '',
+    cloudinaryApiKey: '',
+    cloudinaryApiSecret: '',
+    mongodbUrl: '',
   },
   devtools: { enabled: true },
   modules: [
@@ -33,6 +33,17 @@ export default defineNuxtConfig({
     vue: {
       template: {
         transformAssetUrls,
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('Prose')) {
+              return 'prose';
+            }
+          },
+        },
       },
     },
   },
