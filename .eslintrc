@@ -34,8 +34,6 @@
       },
     ],
     "quotes": ["error", "single"],
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"],
-    },
+    "import/named": 0,
   },
 }
