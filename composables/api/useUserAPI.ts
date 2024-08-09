@@ -1,6 +1,6 @@
 import type { FetchOptions } from 'ofetch';
 import type { WhoamiResponse } from '~/types/responses';
-import type { Profile } from '~/types/user';
+import type { FavouriteArticle, Profile } from '~/types/user';
 
 interface UpdateProfileOptions extends FetchOptions {
   body: Omit<Profile, 'id' | 'email'>;
@@ -8,6 +8,14 @@ interface UpdateProfileOptions extends FetchOptions {
 
 interface UpdateProfileAvatarOptions extends FetchOptions {
   body: FormData;
+}
+
+interface RemoveFavouriteArticleOptions extends FetchOptions {
+  body: Pick<FavouriteArticle, 'path'>;
+}
+
+interface AddFavouriteArticleOptions extends FetchOptions {
+  body: FavouriteArticle;
 }
 
 const SOURCE_FETCH_OPTIONS: FetchOptions = {
@@ -53,5 +61,21 @@ export default function useUserAPI() {
   const updateProfileAvatar = (id: string, options: UpdateProfileAvatarOptions) =>
     $fetch<string>(`/api/user/${id}/profile/avatar`, { ...defaultOptions, ...options, method: 'PUT' });
 
-  return { fetchWhoami, updateProfile, updateProfileAvatar };
+  const removeFavouriteArticle = (id: string, options: RemoveFavouriteArticleOptions) =>
+    $fetch<boolean>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'DELETE' });
+
+  const addFavouriteArticle = (id: string, options: AddFavouriteArticleOptions) =>
+    $fetch<FavouriteArticle>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'PUT' });
+
+  const fetchFavouriteArticles = (id: string, options: UpdateProfileAvatarOptions) =>
+    $fetch<Array<FavouriteArticle>>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'GET' });
+
+  return {
+    fetchWhoami,
+    updateProfile,
+    updateProfileAvatar,
+    removeFavouriteArticle,
+    addFavouriteArticle,
+    fetchFavouriteArticles,
+  };
 }
