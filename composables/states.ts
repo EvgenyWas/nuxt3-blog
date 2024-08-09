@@ -12,4 +12,5 @@ export const useUser = () =>
     address: '',
     phone: '',
     socials: [],
+    favourites: [],
   }));

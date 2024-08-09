@@ -4,7 +4,7 @@ export const NAV_PUBLIC_LINKS = [
 ];
 export const NAV_USER_LINKS = [
   { to: '/profile', title: 'Profile', icon: 'fas fa-user' },
-  { to: '/profile/favorites', title: 'Favorites', icon: 'fas fa-heart' },
+  { to: '/profile/favourites', title: 'Favourites', icon: 'fas fa-heart' },
   { to: '/profile/comments', title: 'Comments', icon: 'fas fa-comments' },
 ];
 export const FOOTER_LINKS = [

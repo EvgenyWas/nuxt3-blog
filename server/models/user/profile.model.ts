@@ -1,6 +1,26 @@
 import { Schema, model } from 'mongoose';
+
 import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
 import { emailValidator, passwordValidator, dataURIValidator } from '~/utils/validators';
+
+const favouritesSubschema = new Schema(
+  {
+    path: {
+      type: String,
+      required: true,
+      index: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    topic: {
+      type: String,
+      default: '',
+    },
+  },
+  { _id: false },
+);
 
 const schema = new Schema(
   {
@@ -55,6 +75,7 @@ const schema = new Schema(
       type: String,
       enum: Object.values(AUTH_PROVIDERS),
     },
+    favourites: [favouritesSubschema],
   },
   { timestamps: true },
 );
