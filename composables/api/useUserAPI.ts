@@ -67,8 +67,12 @@ export default function useUserAPI() {
   const addFavouriteArticle = (id: string, options: AddFavouriteArticleOptions) =>
     $fetch<FavouriteArticle>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'PUT' });
 
-  const fetchFavouriteArticles = (id: string, options: UpdateProfileAvatarOptions) =>
-    $fetch<Array<FavouriteArticle>>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'GET' });
+  const fetchFavouriteArticles = (id: string, options: FetchOptions = {}) =>
+    $fetch<{ favourites: Array<FavouriteArticle> }>(`/api/user/${id}/favourites`, {
+      ...defaultOptions,
+      ...options,
+      method: 'GET',
+    });
 
   return {
     fetchWhoami,
