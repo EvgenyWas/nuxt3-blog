@@ -35,6 +35,12 @@ export default function useContentAPI() {
       .limit(options.limit || PAGINATION_LIMIT)
       .find();
 
+  const fetchFavouritesArticlesList = (paths: Array<string>) =>
+    queryContent<ArticleListItem>('articles')
+      .only(ARTICLE_LIST_ONLY)
+      .where({ _path: { $in: paths } })
+      .find();
+
   return {
     fetchArticle,
     fetchArticleSiblings,
@@ -42,5 +48,6 @@ export default function useContentAPI() {
     fetchMostViewedArticlesList,
     fetchBestArticlesList,
     fetchPaginalArticlesList,
+    fetchFavouritesArticlesList,
   };
 }
