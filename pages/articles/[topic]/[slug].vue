@@ -1,9 +1,33 @@
 <template>
-  <div class="container mb-8">
+  <div class="container position-relative mb-8">
     <article class="article">
       <div class="article-header d-flex flex-column justify-center align-center mb-8 mb-md-12">
         <h1 class="mb-2 text-h5 text-md-h4 text-center">
+          <VTooltip
+            :disabled="auth.authorized"
+            :text="favouriteBtnTooltip"
+            location="top"
+          >
+            <template #activator="{ props }">
+              <div
+                v-bind="props"
+                class="d-inline"
+              >
+                <VBtn
+                  :disabled="!auth.authorized"
+                  :loading="isAddToFavouritesLoading"
+                  :icon="favouriteBtnIcon"
+                  aria-label="add the article to favourites"
+                  variant="text"
+                  size="small"
+                  @click="onFavouriteBtnClick"
+                />
+              </div>
+            </template>
+          </VTooltip>
+
           {{ article?.title }}
+
           <VTooltip text="Views of the article">
             <template #activator="{ props }">
               <span
@@ -131,6 +155,7 @@
 </template>
 
 <script setup lang="ts">
+import { remove } from 'lodash-es';
 import { ARTICLE_RATE_MAX_AGE, MAX_ARTICLE_RATE } from '~/configs/properties';
 import type { ArticleContent } from '~/types/responses';
 
@@ -151,9 +176,13 @@ definePageMeta({
 
 const pageTransition = useState<ArticlePageTransition>('article-page-transition');
 const route = useRoute();
+const auth = useAuth();
+const user = useUser();
+
 const { openSuccessfulSnackbar, openErrorSnackbar } = useSnackbar();
 const { fetchArticleStats, updateArticleRate, updateArticleViews } = usePublicAPI();
 const { fetchArticle, fetchArticleSiblings } = useContentAPI();
+const { addFavouriteArticle, removeFavouriteArticle } = useUserAPI();
 
 const topic = route.params.topic as string;
 const title = route.params.slug as string;
@@ -161,6 +190,7 @@ const title = route.params.slug as string;
 const rateCookie = useCookie(`article-rate-${topic}-${title}`, { maxAge: ARTICLE_RATE_MAX_AGE });
 
 const rateModelValue = ref<number>(0);
+const isAddToFavouritesLoading = ref<boolean>(false);
 
 const { data: article, error } = await useAsyncData(route.path, () => fetchArticle(route.path), { deep: false });
 if (!article.value || error.value) {
@@ -190,6 +220,18 @@ const ratings = computed<string | null>(() => {
   }
 });
 
+const favouriteBtnTooltip = computed<string>(() => {
+  if (auth.value.authorized) {
+    return 'Add the article to your favourites';
+  } else {
+    return 'Log in or sign up to save articles to your favourites';
+  }
+});
+
+const isInFavourites = computed<boolean>(() => Boolean(user.value.favourites.find(({ path }) => path === route.path)));
+
+const favouriteBtnIcon = computed<string>(() => (isInFavourites.value ? 'fas fa-heart' : 'far fa-heart'));
+
 const rateArticle = async (rate: number | string) => {
   try {
     await updateArticleRate({ params: { topic, title }, body: { rate } });
@@ -208,6 +250,27 @@ const onPrevClick = () => {
 const onNextClick = () => {
   pageTransition.value = 'slide-left';
   navigateTo(nextSibling.value?._path);
+};
+
+const onFavouriteBtnClick = async () => {
+  isAddToFavouritesLoading.value = true;
+  try {
+    if (isInFavourites.value) {
+      await removeFavouriteArticle(user.value.id ?? '', { body: { path: route.path } });
+      remove(user.value.favourites, ({ path }) => path === route.path);
+      openSuccessfulSnackbar('The article has been removed from your favourites');
+    } else {
+      const favourite = await addFavouriteArticle(user.value.id ?? '', {
+        body: { path: route.path, title: article.value?.title ?? '', topic },
+      });
+      user.value.favourites.push(favourite);
+      openSuccessfulSnackbar('The article has been added to your favourites');
+    }
+  } catch (error) {
+    openErrorSnackbar(error);
+  } finally {
+    isAddToFavouritesLoading.value = false;
+  }
 };
 
 onBeforeRouteLeave((_, from) => {
