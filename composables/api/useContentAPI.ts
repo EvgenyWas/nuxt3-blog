@@ -1,8 +1,8 @@
 import { BEST_ARTICLES_LIMIT, MOST_VIEWED_ARTICLES_LIMIT } from '~/configs/properties';
-import type { ArticleContent, ArticleListItem } from '~/types/responses';
+import type { ArticleContent, ArticleListItem, ArticleSibling } from '~/types/responses';
 
 const ARTICLE_LIST_ONLY: Array<keyof ArticleListItem> = ['_path', 'title', 'description', 'image', 'keywords'];
-const ARTICLE_SIBLINGS_ONLY: Array<keyof ArticleListItem> = ['_path', 'title'];
+const ARTICLE_SIBLINGS_ONLY: Array<keyof ArticleSibling> = ['_path', 'title'];
 const PAGINATION_LIMIT = 10;
 
 interface PaginationOptions {
@@ -14,13 +14,12 @@ export default function useContentAPI() {
   const fetchArticle = (path: string) => queryContent<ArticleContent>(path).findOne();
 
   const fetchArticleSiblings = (path: string, topic?: string) =>
-    queryContent<ArticleContent>()
+    queryContent<ArticleSibling>('articles', topic ?? '')
       .only(ARTICLE_SIBLINGS_ONLY)
-      .where({ _path: { $contains: `/articles/${topic}` } })
       .findSurround(path);
 
   const fetchArticlesListByTopic = (topic: string) =>
-    queryContent<ArticleListItem>(`articles/${topic}`).only(ARTICLE_LIST_ONLY).find();
+    queryContent<ArticleListItem>('articles', topic).only(ARTICLE_LIST_ONLY).find();
 
   const fetchMostViewedArticlesList = () =>
     queryContent<ArticleListItem>('articles').only(ARTICLE_LIST_ONLY).limit(MOST_VIEWED_ARTICLES_LIMIT).find(); // TODO: update

@@ -1,4 +1,4 @@
-import type { MarkdownParsedContent } from '@nuxt/content/types';
+import type { MarkdownParsedContent } from '@nuxt/content';
 import type { AuthState } from './states';
 import type { Profile } from './user';
 import type { ARTICLE_KEYWORDS } from '~/configs/properties';
@@ -27,6 +27,8 @@ export interface ArticleContent extends MarkdownParsedContent {
 }
 
 export type ArticleListItem = Pick<ArticleContent, '_path' | 'title' | 'description' | 'image' | 'keywords'>;
+
+export type ArticleSibling = Pick<ArticleContent, '_path' | 'title'>;
 
 export interface ArticlesStats {
   views: number;

@@ -44,46 +44,48 @@
           </h2>
         </VCol>
 
-        <VCol
-          v-for="article in mostViewedArticles"
-          :key="article._path"
-          cols="12"
-          sm="6"
-          md="4"
-          xl="2"
-        >
-          <VCard :to="article._path">
-            <VImg
-              v-if="article.image"
-              :src="article.image"
-              height="150"
-              cover
-            >
-              <template #error>
-                <VImg
-                  :src="ARTICLE_IMAGE_FALLBACK"
-                  alt="by Carrie Yang"
-                  height="150"
-                  cover
-                />
-              </template>
-            </VImg>
-            <VImg
-              v-else
-              :src="ARTICLE_IMAGE_FALLBACK"
-              alt="by Carrie Yang"
-              height="150"
-              cover
-            />
+        <template v-if="mostViewedArticles?.length">
+          <VCol
+            v-for="article in mostViewedArticles"
+            :key="article._path"
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+          >
+            <VCard :to="article._path">
+              <VImg
+                v-if="article.image"
+                :src="article.image"
+                height="150"
+                cover
+              >
+                <template #error>
+                  <VImg
+                    :src="ARTICLE_IMAGE_FALLBACK"
+                    alt="by Carrie Yang"
+                    height="150"
+                    cover
+                  />
+                </template>
+              </VImg>
+              <VImg
+                v-else
+                :src="ARTICLE_IMAGE_FALLBACK"
+                alt="by Carrie Yang"
+                height="150"
+                cover
+              />
 
-            <VCardItem
-              :title="article.title"
-              :subtitle="article.description"
-            />
-          </VCard>
-        </VCol>
+              <VCardItem
+                :title="article.title"
+                :subtitle="article.description"
+              />
+            </VCard>
+          </VCol>
+        </template>
 
-        <VCol v-if="bestArticlesError">
+        <VCol v-if="!mostViewedArticles?.length || mostViewedArticlesError">
           <VEmptyState
             icon="fas fa-bug"
             title="Sorry, the most viewed articles have not been found"
@@ -123,47 +125,49 @@
           </h2>
         </VCol>
 
-        <VCol
-          v-for="(article, idx) in bestArticles"
-          :key="article._path"
-          :order="idx"
-          cols="12"
-          sm="6"
-          md="4"
-          xl="2"
-        >
-          <VCard :to="article._path">
-            <VImg
-              v-if="article.image"
-              :src="article.image"
-              height="150"
-              cover
-            >
-              <template #error>
-                <VImg
-                  :src="ARTICLE_IMAGE_FALLBACK"
-                  alt="by Carrie Yang"
-                  height="150"
-                  cover
-                />
-              </template>
-            </VImg>
-            <VImg
-              v-else
-              :src="ARTICLE_IMAGE_FALLBACK"
-              alt="by Carrie Yang"
-              height="150"
-              cover
-            />
+        <template v-if="bestArticles?.length">
+          <VCol
+            v-for="(article, idx) in bestArticles"
+            :key="article._path"
+            :order="idx"
+            cols="12"
+            sm="6"
+            md="4"
+            xl="2"
+          >
+            <VCard :to="article._path">
+              <VImg
+                v-if="article.image"
+                :src="article.image"
+                height="150"
+                cover
+              >
+                <template #error>
+                  <VImg
+                    :src="ARTICLE_IMAGE_FALLBACK"
+                    alt="by Carrie Yang"
+                    height="150"
+                    cover
+                  />
+                </template>
+              </VImg>
+              <VImg
+                v-else
+                :src="ARTICLE_IMAGE_FALLBACK"
+                alt="by Carrie Yang"
+                height="150"
+                cover
+              />
 
-            <VCardItem
-              :title="article.title"
-              :subtitle="article.description"
-            />
-          </VCard>
-        </VCol>
+              <VCardItem
+                :title="article.title"
+                :subtitle="article.description"
+              />
+            </VCard>
+          </VCol>
+        </template>
 
-        <VCol v-if="bestArticlesError">
+        <VCol v-if="!bestArticles?.length || bestArticlesError">
           <VEmptyState
             icon="fas fa-bug"
             title="Sorry, the best articles have not been found"

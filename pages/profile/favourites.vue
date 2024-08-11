@@ -22,7 +22,7 @@
               :subtitle="article.description"
               :prepend-avatar="article.image"
               lines="three"
-              @click="$router.push({ path: article._path })"
+              @click="navigateToArticle(article._path)"
             >
               <template #append>
                 <div class="d-flex flex-column ga-2 ml-1">
@@ -100,4 +100,6 @@ const removeFavourite = async (item: ArticleListItem) => {
     deletingPath.value = '';
   }
 };
+
+const navigateToArticle = (path: string = '/') => navigateTo({ path });
 </script>
