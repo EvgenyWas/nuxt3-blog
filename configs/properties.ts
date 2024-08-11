@@ -17,7 +17,7 @@ export const MAX_USER_AVATAR_SIZE = 3 * 1024 * 1024;
 export const USER_AVATAR_FILE_TYPES = 'image/*' as const;
 
 export const COOKIE_NAMES = {
-  // TODO: add theme cookie
+  colorTheme: 'NUXT3_BLOG_CT',
   refreshToken: 'NUXT3_BLOG_RT',
   userIdentity: 'NUXT3_BLOG_UI',
 } as const;

@@ -1,16 +1,16 @@
 import { useTheme } from 'vuetify';
+import { COOKIE_NAMES } from '~/configs/properties';
 
 enum THEMES {
   LIGHT = 'light',
   DARK = 'dark',
 }
 
-const THEME_COOKIE_NAME = 'color-theme';
 const THEME_COOKIE_MAX_AGE = 400 * 24 * 60 * 60;
 
 export default function useColorTheme() {
   const theme = useTheme();
-  const themeCookie = useCookie(THEME_COOKIE_NAME, { maxAge: THEME_COOKIE_MAX_AGE });
+  const themeCookie = useCookie(COOKIE_NAMES.colorTheme, { maxAge: THEME_COOKIE_MAX_AGE });
 
   const isDark = computed<boolean>(() => theme.global.current.value.dark);
 
