@@ -236,7 +236,10 @@
       </template>
     </VNavigationDrawer>
 
-    <VContainer class="h-100 pt-16">
+    <VContainer
+      class="h-100 pt-16"
+      style="max-width: 1200px"
+    >
       <Transition
         name="fade"
         mode="out-in"
@@ -262,7 +265,10 @@
       </VMain>
     </VContainer>
 
-    <VContainer class="pb-0">
+    <VContainer
+      class="pb-0"
+      style="max-width: 1200px"
+    >
       <VFooter
         :color="footerColor"
         style="height: 30vh"

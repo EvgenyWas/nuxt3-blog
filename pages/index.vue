@@ -37,7 +37,6 @@
           cols="12"
           sm="6"
           md="4"
-          xl="2"
         >
           <h2 class="text-h4 text-md-h3">
             Check out our <span class="text-decoration-underline">most viewed</span> articles 🤩
@@ -51,7 +50,6 @@
             cols="12"
             sm="6"
             md="4"
-            xl="2"
           >
             <VCard :to="article._path">
               <VImg
@@ -99,7 +97,6 @@
             cols="12"
             sm="6"
             md="4"
-            xl="2"
           >
             <VSkeletonLoader type="card" />
           </VCol>
@@ -115,7 +112,6 @@
           cols="12"
           sm="6"
           md="4"
-          xl="2"
           order-sm="1"
           order-md="2"
           :order-xl="MOST_VIEWED_ARTICLES_LIMIT"
@@ -133,7 +129,6 @@
             cols="12"
             sm="6"
             md="4"
-            xl="2"
           >
             <VCard :to="article._path">
               <VImg
@@ -181,7 +176,6 @@
             cols="12"
             sm="6"
             md="4"
-            xl="2"
           >
             <VSkeletonLoader type="card" />
           </VCol>
