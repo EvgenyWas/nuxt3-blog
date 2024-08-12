@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     cloudinaryApiKey: '',
     cloudinaryApiSecret: '',
     mongodbUrl: '',
+    public: {
+      appUrl: '',
+    },
   },
   devtools: { enabled: true },
   modules: [

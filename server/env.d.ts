@@ -10,6 +10,7 @@ declare global {
       NUXT_GOOGLE_CLIENT_ID: string;
       NUXT_JWT_ACCESS_SECRET: string;
       NUXT_JWT_REFRESH_SECRET: string;
+      NUXT_PUBLIC_APP_URL: string;
     }
   }
 }
