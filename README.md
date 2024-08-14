@@ -1,65 +1,71 @@
-# Nuxt 3 Minimal Starter
+<div align="center">
 
-<img alt="GitHub License" src="https://img.shields.io/badge/NuxtJS-0f172a?logo=nuxtdotjs">
+# [Nuxt3 Blog](https://nuxt3-blog-mu.vercel.app/)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+🖼 My pet project within mentoring at KMS Lighthouse
 
-## Setup
+</div>
 
-Make sure to install the dependencies:
+---
 
-```bash
-# npm
-npm install
+## ⚒️ Tech stack
+<div>
+<img alt="Vue" src="https://img.shields.io/badge/VueJS-0f172a?logo=vuedotjs">
+<img alt="Nuxt" src="https://img.shields.io/badge/NuxtJS-0f172a?logo=nuxtdotjs">
+<img alt="Nuxt Content" src="https://img.shields.io/badge/NuxtContent-0f172a?logo=nuxtdotjs">
+<img alt="Vuetify" src="https://img.shields.io/badge/Vuetify-0f172a?logo=vuetify">
+<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-0f172a?logo=typescript">
+<img alt="Vercel" src="https://img.shields.io/badge/Vercel-0f172a?logo=vercel">
+<img alt="PNPM" src="https://img.shields.io/badge/PNPM-0f172a?logo=pnpm">
+<img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-0f172a?logo=mongodb">
+<img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-0f172a?logo=mongoosedotws">
+</div>
 
-# pnpm
-pnpm install
+- **Framework** → [Nuxt](https://nuxtjs.org/)
+- **Content** → [Nuxt Content](https://content.nuxtjs.org/)
+- **Design System** → [Vuetify](https://vuetifyjs.com/)
+- **Language** → [Typescript](https://www.typescriptlang.org/)
+- **Deployment** → [Vercel](https://vercel.com/)
+- **Package Manager** → [pnpm](https://pnpm.io/)
+- **Data Base** → [MongoDB](https://www.mongodb.com/)
 
-# yarn
-yarn install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
+## ⚡ Running locally
 
 ```bash
-# npm
-npm run build
+# Installation (recommended for nuxt3)
+pnpm i --shamefully-hoist
 
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
+# Development server
+pnpm dev
 ```
 
-Locally preview production build:
+Add a `.env` file with the following content:
 
-```bash
-# npm
-npm run preview
+```env
+# Cloudinary
+NUXT_CLOUDINARY_CLOUD_NAME=...
+NUXT_CLOUDINARY_API_KEY=...
+NUXT_CLOUDINARY_API_SECRET=...
 
-# pnpm
-pnpm run preview
+# MongoDB
+NUXT_MONGODB_URL=...
 
-# yarn
-yarn preview
+# GitHub
+NUXT_GITHUB_CLIENT_ID=...
+NUXT_GITHUB_CLIENT_SECRET=...
+
+# Google
+NUXT_GOOGLE_CLIENT_ID=...
+NUXT_GOOGLE_CLIENT_SECRET=...
+
+# JWT
+NUXT_JWT_ACCESS_SECRET=...
+NUXT_JWT_REFRESH_SECRET=...
+
+# Your app URL
+NUXT_PUBLIC_APP_URL=...
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 📄 License
+
+[MIT](./LICENSE) © Yauheni Vasiukevich
