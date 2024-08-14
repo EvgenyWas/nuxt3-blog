@@ -12,7 +12,11 @@ export const FOOTER_LINKS = [
 ];
 
 export const MIN_USER_NAME_LENGTH = 3;
+export const MAX_USER_NAME_LENGTH = 100;
+export const MAX_USER_DESCRIPTION_LENGTH = 500;
+export const MAX_USER_ADDRESS_LENGTH = 100;
 export const MAX_USER_SOCIALS = 4;
+export const MAX_USER_SOCIAL_LENGTH = 100;
 export const MAX_USER_AVATAR_SIZE = 3 * 1024 * 1024;
 export const USER_AVATAR_FILE_TYPES = 'image/*' as const;
 

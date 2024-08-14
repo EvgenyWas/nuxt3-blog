@@ -11,10 +11,13 @@ const anotherAuthProviderMessage =
   'You tried signing in with a different authentication method than the one you used during signup. ' +
   'Please try again using your original authentication method.';
 
-const loginPayloadSchema = z.object({
-  email: emailValidator,
-  password: passwordValidator,
-});
+const loginPayloadSchema = z
+  .object({
+    email: emailValidator,
+    password: passwordValidator,
+  })
+  .strict()
+  .required();
 
 type Payload = z.infer<typeof loginPayloadSchema>;
 
@@ -34,7 +37,7 @@ export default defineEventHandler(async (event) => {
     }
 
     if (user.auth_provider !== AUTH_PROVIDERS.Email_And_Password) {
-      throw createError({ statusCode: 404, statusMessage: anotherAuthProviderMessage });
+      throw createError({ statusCode: 400, statusMessage: anotherAuthProviderMessage });
     }
 
     if (user.password !== payload.password) {

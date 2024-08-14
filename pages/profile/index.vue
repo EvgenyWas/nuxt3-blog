@@ -13,9 +13,11 @@
           <VTextField
             v-model="model.name"
             :rules="nameRules"
+            :maxlength="MAX_USER_NAME_LENGTH"
             name="name"
             label="name"
             required
+            counter
             @click:clear="clearName"
           />
         </VCol>
@@ -26,7 +28,9 @@
         >
           <VTextField
             v-model="model.description"
+            :maxlength="MAX_USER_DESCRIPTION_LENGTH"
             label="description"
+            counter
             @click:clear="clearDescription"
           />
         </VCol>
@@ -37,7 +41,9 @@
         >
           <VTextField
             v-model="model.address"
+            :maxlength="MAX_USER_ADDRESS_LENGTH"
             label="address"
+            counter
             @click:clear="clearAddress"
           />
         </VCol>
@@ -82,6 +88,8 @@
             :model-value="model.socials[idx]"
             :rules="socialRules"
             :label="`social #${social}`"
+            :maxlength="MAX_USER_SOCIAL_LENGTH"
+            counter
             @update:model-value="changeSocial(idx, $event)"
           />
         </VCol>
@@ -106,7 +114,11 @@
 import { cloneDeep, isEqual, isUndefined, omit } from 'lodash-es';
 import {
   MIN_USER_NAME_LENGTH,
+  MAX_USER_NAME_LENGTH,
+  MAX_USER_DESCRIPTION_LENGTH,
+  MAX_USER_ADDRESS_LENGTH,
   MAX_USER_SOCIALS,
+  MAX_USER_SOCIAL_LENGTH,
   USER_AVATAR_FILE_TYPES,
   MAX_USER_AVATAR_SIZE,
 } from '~/configs/properties';

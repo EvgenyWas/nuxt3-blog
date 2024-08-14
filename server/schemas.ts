@@ -1,6 +1,14 @@
 import { z } from 'zod';
 
-import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
+import {
+  AUTH_PROVIDERS,
+  MAX_USER_ADDRESS_LENGTH,
+  MAX_USER_DESCRIPTION_LENGTH,
+  MAX_USER_NAME_LENGTH,
+  MAX_USER_SOCIAL_LENGTH,
+  MAX_USER_SOCIALS,
+  MIN_USER_NAME_LENGTH,
+} from '~/configs/properties';
 import { dataURIValidator, phoneValidator, urlValidator } from '~/utils/validators';
 
 export const userIdentitySchema = z
@@ -21,15 +29,15 @@ export const userFavouriteSchema = z
 
 export const userUpdateProfileSchema = z
   .object({
-    name: z.string().min(MIN_USER_NAME_LENGTH),
+    name: z.string().min(MIN_USER_NAME_LENGTH).max(MAX_USER_NAME_LENGTH),
     avatar: z
       .string()
       .refine((value) => !dataURIValidator.safeParse(value).success)
       .or(z.literal('')),
-    description: z.string(),
-    address: z.string(),
+    description: z.string().max(MAX_USER_DESCRIPTION_LENGTH),
+    address: z.string().max(MAX_USER_ADDRESS_LENGTH),
     phone: phoneValidator.or(z.literal('')),
-    socials: z.array(urlValidator.or(z.literal(''))).max(MAX_USER_SOCIALS),
+    socials: z.array(urlValidator.max(MAX_USER_SOCIAL_LENGTH).or(z.literal(''))).max(MAX_USER_SOCIALS),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
     favourites: z.array(userFavouriteSchema).optional(),

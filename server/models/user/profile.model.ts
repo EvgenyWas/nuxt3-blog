@@ -1,7 +1,14 @@
 import { Schema, model } from 'mongoose';
 
-import { AUTH_PROVIDERS, MAX_USER_SOCIALS, MIN_USER_NAME_LENGTH } from '~/configs/properties';
-import { emailValidator, passwordValidator, dataURIValidator } from '~/utils/validators';
+import {
+  AUTH_PROVIDERS,
+  MAX_USER_ADDRESS_LENGTH,
+  MAX_USER_DESCRIPTION_LENGTH,
+  MAX_USER_NAME_LENGTH,
+  MAX_USER_SOCIALS,
+  MIN_USER_NAME_LENGTH,
+} from '~/configs/properties';
+import { emailValidator, passwordValidator, dataURIValidator, phoneValidator } from '~/utils/validators';
 
 const favouritesSubschema = new Schema(
   {
@@ -28,6 +35,7 @@ const schema = new Schema(
       type: String,
       required: true,
       minLength: MIN_USER_NAME_LENGTH,
+      maxLength: MAX_USER_NAME_LENGTH,
     },
     email: {
       type: String,
@@ -39,29 +47,36 @@ const schema = new Schema(
     },
     password: {
       type: String,
+      required: true,
       validate: {
         validator: (value: string) => passwordValidator.safeParse(value).success,
       },
     },
     avatar: {
       type: String,
+      default: '',
       validate: {
         validator: (value?: string) => !dataURIValidator.safeParse(value).success,
         message: 'Avatar in base64 format is forbidden.',
       },
-      default: '',
     },
     description: {
       type: String,
       default: '',
+      maxLength: MAX_USER_DESCRIPTION_LENGTH,
     },
     address: {
       type: String,
       default: '',
+      maxLength: MAX_USER_ADDRESS_LENGTH,
     },
     phone: {
       type: String,
       default: '',
+      validate: {
+        validator: (value: string) => !value || phoneValidator.safeParse(value).success,
+        message: 'Phone value is incorrect',
+      },
     },
     socials: {
       type: Array,
@@ -74,6 +89,8 @@ const schema = new Schema(
     auth_provider: {
       type: String,
       enum: Object.values(AUTH_PROVIDERS),
+      immutable: true,
+      required: true,
     },
     favourites: [favouritesSubschema],
   },
