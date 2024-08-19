@@ -84,6 +84,7 @@ import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
 
 definePageMeta({
   layout: 'empty',
+  middleware: ['unauthorized'],
 });
 
 const { openErrorSnackbar } = useSnackbar();

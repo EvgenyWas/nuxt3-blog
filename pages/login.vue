@@ -68,6 +68,7 @@ import AuthProviders from '~/components/AuthProviders.vue';
 
 definePageMeta({
   layout: 'empty',
+  middleware: ['unauthorized'],
 });
 
 const router = useRouter();
