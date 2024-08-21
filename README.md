@@ -20,6 +20,7 @@
 <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-0f172a?logo=mongodb">
 <img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-0f172a?logo=mongoosedotws">
 <img alt="Zod" src="https://img.shields.io/badge/Zod-0f172a?logo=zod">
+<img alt="Cloudinary" src="https://img.shields.io/badge/Cloudinary-0f172a?logo=cloudinary">
 </div>
 
 - **Framework** → [Nuxt](https://nuxtjs.org/)
