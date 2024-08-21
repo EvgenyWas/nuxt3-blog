@@ -10,7 +10,6 @@
 
 ## ⚒️ Tech stack
 <div>
-<img alt="Vue" src="https://img.shields.io/badge/VueJS-0f172a?logo=vuedotjs">
 <img alt="Nuxt" src="https://img.shields.io/badge/NuxtJS-0f172a?logo=nuxtdotjs">
 <img alt="Nuxt Content" src="https://img.shields.io/badge/NuxtContent-0f172a?logo=nuxtdotjs">
 <img alt="Vuetify" src="https://img.shields.io/badge/Vuetify-0f172a?logo=vuetify">
