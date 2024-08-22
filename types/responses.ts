@@ -1,10 +1,9 @@
 import type { MarkdownParsedContent } from '@nuxt/content';
-import type { AuthState } from './states';
 import type { Profile } from './user';
 import type { ARTICLE_KEYWORDS } from '~/configs/properties';
 
 export interface SignupResponse {
-  token: AuthState['token'];
+  token: string;
   profile: Profile;
 }
 

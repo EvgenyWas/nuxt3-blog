@@ -24,7 +24,8 @@ const SOURCE_FETCH_OPTIONS: FetchOptions = {
 };
 
 export default function useUserAPI() {
-  const auth = useAuth();
+  const token = useToken();
+  const user = useUser();
   const { refreshAccessToken } = useAuthAPI();
   const headers = useRequestHeaders();
   const event = useRequestEvent();
@@ -34,8 +35,8 @@ export default function useUserAPI() {
     headers,
     onRequest({ options }) {
       options.headers = new Headers(options.headers || {});
-      if (auth.value.token) {
-        options.headers.set('Authorization', `Bearer ${auth.value.token}`);
+      if (token.value) {
+        options.headers.set('Authorization', `Bearer ${token.value}`);
       } else {
         options.headers.delete('Authorization');
       }
@@ -44,9 +45,11 @@ export default function useUserAPI() {
       if (response.status === 401) {
         try {
           const { accessToken } = await refreshAccessToken();
-          auth.value = { token: accessToken, authorized: true };
+          token.value = accessToken;
+          user.value.authorized = true;
         } catch (error) {
-          auth.value = { token: '', authorized: false };
+          token.value = '';
+          user.value.authorized = false;
         }
       }
     },

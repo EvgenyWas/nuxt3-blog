@@ -4,7 +4,7 @@
       <div class="article-header d-flex flex-column justify-center align-center mb-8 mb-md-12">
         <h1 class="mb-2 text-h5 text-md-h4 text-center">
           <VTooltip
-            :disabled="auth.authorized"
+            :disabled="user.authorized"
             :text="favouriteBtnTooltip"
             location="top"
           >
@@ -14,7 +14,7 @@
                 class="d-inline"
               >
                 <VBtn
-                  :disabled="!auth.authorized"
+                  :disabled="!user.authorized"
                   :loading="isAddToFavouritesLoading"
                   :icon="favouriteBtnIcon"
                   aria-label="add the article to favourites"
@@ -176,7 +176,6 @@ definePageMeta({
 
 const pageTransition = useState<ArticlePageTransition>('article-page-transition');
 const route = useRoute();
-const auth = useAuth();
 const user = useUser();
 
 const { openSuccessfulSnackbar, openErrorSnackbar } = useSnackbar();
@@ -221,14 +220,16 @@ const ratings = computed<string | null>(() => {
 });
 
 const favouriteBtnTooltip = computed<string>(() => {
-  if (auth.value.authorized) {
+  if (user.value.authorized) {
     return 'Add the article to your favourites';
   } else {
     return 'Log in or sign up to save articles to your favourites';
   }
 });
 
-const isInFavourites = computed<boolean>(() => Boolean(user.value.favourites.find(({ path }) => path === route.path)));
+const isInFavourites = computed<boolean>(() =>
+  Boolean(user.value.profile.favourites.find(({ path }) => path === route.path)),
+);
 
 const favouriteBtnIcon = computed<string>(() => (isInFavourites.value ? 'fas fa-heart' : 'far fa-heart'));
 
@@ -256,14 +257,14 @@ const onFavouriteBtnClick = async () => {
   isAddToFavouritesLoading.value = true;
   try {
     if (isInFavourites.value) {
-      await removeFavouriteArticle(user.value.id ?? '', { body: { path: route.path } });
-      remove(user.value.favourites, ({ path }) => path === route.path);
+      await removeFavouriteArticle(user.value.profile.id ?? '', { body: { path: route.path } });
+      remove(user.value.profile.favourites, ({ path }) => path === route.path);
       openSuccessfulSnackbar('The article has been removed from your favourites');
     } else {
-      const favourite = await addFavouriteArticle(user.value.id ?? '', {
+      const favourite = await addFavouriteArticle(user.value.profile.id ?? '', {
         body: { path: route.path, title: article.value?.title ?? '', topic },
       });
-      user.value.favourites.push(favourite);
+      user.value.profile.favourites.push(favourite);
       openSuccessfulSnackbar('The article has been added to your favourites');
     }
   } catch (error) {

@@ -2,14 +2,14 @@
   <VLayout class="rounded rounded-md">
     <VNavigationDrawer v-model="drawer">
       <VListItem
-        :title="user.name"
+        :title="user.profile.name"
         density="compact"
         class="mt-2"
       >
         <template #prepend>
           <UserAvatar
-            :src="user.avatar"
-            :name="user.name"
+            :src="user.profile.avatar"
+            :name="user.profile.name"
           />
         </template>
       </VListItem>
@@ -77,7 +77,7 @@ const toggleDrawerBtnIcon = computed<string>(() =>
   drawer.value ? 'fas fa-caret-square-left' : 'fas fa-caret-square-right',
 );
 
-const appBarTitle = computed(() => `Welcome to your profile, ${user.value.name} :)`);
+const appBarTitle = computed(() => `Welcome to your profile, ${user.value.profile.name} :)`);
 
 const toggleDrawer = () => (drawer.value = !drawer.value);
 </script>

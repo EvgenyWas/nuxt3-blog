@@ -71,6 +71,7 @@ definePageMeta({
   middleware: ['unauthorized'],
 });
 
+const user = useUser();
 const router = useRouter();
 
 const { loginWithEmailAndPassword } = useAuthAPI();
@@ -105,8 +106,9 @@ const submit = async () => {
       body: { email: model.email, password: stringToBase64(model.password) },
     });
 
-    useAuth().value = { token, authorized: true };
-    useUser().value = profile;
+    useToken().value = token;
+    user.value.profile = profile;
+    user.value.authorized = true;
     if (router.options?.history?.state?.back) {
       router.back();
     } else {

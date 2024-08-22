@@ -1,8 +1,6 @@
 import type { Profile } from './user';
 
-export interface AuthState {
-  token: string;
+export interface UserState {
+  profile: Profile;
   authorized: boolean;
 }
-
-export interface UserState extends Profile {}

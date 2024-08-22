@@ -54,6 +54,7 @@
             :active="drawer"
             icon="fas fa-bars"
             variant="plain"
+            aria-label="open site settings"
             @click="toggleDrawer"
           />
         </ClientOnly>
@@ -64,6 +65,7 @@
         >
           <VBtn
             variant="plain"
+            aria-label="toggle website theme"
             icon
             @click="toggleTheme"
           >
@@ -79,24 +81,25 @@
             </VFabTransition>
           </VBtn>
 
-          <VMenu v-if="auth.authorized">
+          <VMenu v-if="user.authorized">
             <template #activator="{ props }">
               <VBtn
                 v-bind="props"
                 variant="plain"
                 icon="fas fa-ellipsis-v"
+                aria-label="open menu with settings"
               />
             </template>
 
             <VList>
               <VListItem
-                :title="user.name"
+                :title="user.profile.name"
                 density="compact"
               >
                 <template #prepend>
                   <UserAvatar
-                    :src="user.avatar"
-                    :name="user.name"
+                    :src="user.profile.avatar"
+                    :name="user.profile.name"
                   />
                 </template>
               </VListItem>
@@ -122,7 +125,7 @@
           </VMenu>
 
           <VBtn
-            v-if="!auth.authorized"
+            v-if="!user.authorized"
             variant="plain"
             to="/login"
           >
@@ -130,7 +133,7 @@
           </VBtn>
 
           <VBtn
-            v-if="!auth.authorized"
+            v-if="!user.authorized"
             variant="tonal"
             to="/signup"
           >
@@ -147,16 +150,16 @@
       temporary
       style="position: fixed"
     >
-      <template v-if="auth.authorized">
+      <template v-if="user.authorized">
         <VListItem
-          :title="user.name"
+          :title="user.profile.name"
           density="compact"
           class="mt-2"
         >
           <template #prepend>
             <UserAvatar
-              :src="user.avatar"
-              :name="user.name"
+              :src="user.profile.avatar"
+              :name="user.profile.name"
             />
           </template>
         </VListItem>
@@ -173,7 +176,7 @@
       </template>
 
       <VListItem
-        v-if="!auth.authorized"
+        v-if="!user.authorized"
         variant="tonal"
         title="Access Your Account"
         append-icon="fas fa-sign-in-alt"
@@ -181,7 +184,7 @@
         slim
       />
       <VListItem
-        v-if="!auth.authorized"
+        v-if="!user.authorized"
         variant="tonal"
         title="Get Started"
         append-icon="fas fa-user-plus"
@@ -290,6 +293,7 @@
                 :to="link.to"
                 target="_blank"
                 rel="noopener"
+                aria-label="Yauheni Vasiukevich's social account"
                 external
               >
                 <VIcon
@@ -320,8 +324,6 @@ import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/proper
 const { isDark, toggleTheme } = useColorTheme();
 const { mobile } = useDisplay();
 const route = useRoute();
-
-const auth = useAuth();
 const user = useUser();
 
 const drawer = ref<boolean>(false);

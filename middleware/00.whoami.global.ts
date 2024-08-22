@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(async () => {
   const user = useUser();
-  const auth = useAuth();
+  const token = useToken();
   const { fetchWhoami } = useUserAPI();
   const headers = useRequestHeaders();
 
@@ -16,9 +16,11 @@ export default defineNuxtRouteMiddleware(async () => {
         throw new Error('Profile data is missed in whoami request');
       }
 
-      user.value = data;
+      user.value.profile = data;
+      user.value.authorized = true;
     } catch (error) {
-      auth.value = { token: '', authorized: false };
+      user.value.authorized = false;
+      token.value = '';
       console.log('Initial whoami request failed', error);
     }
   });

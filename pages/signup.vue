@@ -87,6 +87,7 @@ definePageMeta({
   middleware: ['unauthorized'],
 });
 
+const user = useUser();
 const { openErrorSnackbar } = useSnackbar();
 const { signupWithEmailAndPassword } = useAuthAPI();
 
@@ -141,8 +142,9 @@ const submit = async () => {
       body: { email: model.email, name: model.name, password: stringToBase64(model.password) },
     });
 
-    useAuth().value = { token, authorized: true };
-    useUser().value = profile;
+    useToken().value = token;
+    user.value.profile = profile;
+    user.value.authorized = true;
     await navigateTo('/');
   } catch (error) {
     openErrorSnackbar(error);

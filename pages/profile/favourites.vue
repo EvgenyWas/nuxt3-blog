@@ -76,7 +76,7 @@ const { openSuccessfulSnackbar, openErrorSnackbar } = useSnackbar();
 
 const deletingPath = ref<string>();
 
-const favouritesPaths = computed<Array<string>>(() => user.value.favourites.map(({ path }) => path));
+const favouritesPaths = computed<Array<string>>(() => user.value.profile.favourites.map(({ path }) => path));
 
 const { data: articles, pending } = useAsyncData('favourites', () =>
   fetchFavouritesArticlesList(favouritesPaths.value),
@@ -91,8 +91,8 @@ const getTopic = (path: string) => path.split('/')[2];
 const removeFavourite = async (item: ArticleListItem) => {
   try {
     deletingPath.value = item._path;
-    await removeFavouriteArticle(user.value.id ?? '', { body: { path: item._path ?? '' } });
-    remove(user.value.favourites, ({ path }) => path === item._path);
+    await removeFavouriteArticle(user.value.profile.id ?? '', { body: { path: item._path ?? '' } });
+    remove(user.value.profile.favourites, ({ path }) => path === item._path);
     openSuccessfulSnackbar(`The article "${item.title}" has been removed from your favourites`);
   } catch (error) {
     openErrorSnackbar(error);

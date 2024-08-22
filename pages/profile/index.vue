@@ -138,7 +138,7 @@ const user = useUser();
 const { openErrorSnackbar, openSuccessfulSnackbar } = useSnackbar();
 const { updateProfile, updateProfileAvatar } = useUserAPI();
 
-const initModel = () => omit(cloneDeep(user.value), USER_OMIT_PATHS);
+const initModel = () => omit(cloneDeep(user.value.profile), USER_OMIT_PATHS);
 
 const model = reactive<Omit<Profile, 'id' | 'email'>>(initModel());
 
@@ -147,7 +147,7 @@ const isLoading = ref<boolean>(false);
 const avatar = ref<File | null>(null);
 
 const isSaveChangesBtnDisabled = computed<boolean>(
-  () => !isValid.value || (!avatar.value && isEqual(model, omit(user.value, USER_OMIT_PATHS))),
+  () => !isValid.value || (!avatar.value && isEqual(model, omit(user.value.profile, USER_OMIT_PATHS))),
 );
 
 const nameRules = [
@@ -222,12 +222,16 @@ const saveChanges = async () => {
     if (avatar.value) {
       const avatarBody = new FormData();
       avatarBody.append('avatar', avatar.value);
-      uploadedAvatar = await updateProfileAvatar(user.value.id as string, { body: avatarBody });
+      uploadedAvatar = await updateProfileAvatar(user.value.profile.id as string, { body: avatarBody });
     }
 
-    const profileBody = { ...omit(user.value, USER_OMIT_PATHS), ...model, avatar: uploadedAvatar || user.value.avatar };
-    const profile = await updateProfile(user.value.id as string, { body: profileBody });
-    user.value = profile;
+    const profileBody = {
+      ...omit(user.value.profile, USER_OMIT_PATHS),
+      ...model,
+      avatar: uploadedAvatar || user.value.profile.avatar,
+    };
+    const profile = await updateProfile(user.value.profile.id as string, { body: profileBody });
+    user.value.profile = profile;
     Object.assign(model, initModel());
     avatar.value = null;
     openSuccessfulSnackbar('Changes have been successfully saved 👌');

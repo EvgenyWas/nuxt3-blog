@@ -23,6 +23,7 @@ export const USER_AVATAR_FILE_TYPES = 'image/*' as const;
 export const COOKIE_NAMES = {
   colorTheme: 'NUXT3_BLOG_CT',
   refreshToken: 'NUXT3_BLOG_RT',
+  accessToken: 'NUXT3_BLOG_AT',
   userIdentity: 'NUXT3_BLOG_UI',
 } as const;
 
@@ -31,7 +32,7 @@ export enum AUTH_PROVIDERS {
   Google = 'google',
   Github = 'github',
 }
-export const USER_IDENTITY_MAX_AGE = 0.5 * 365 * 24 * 60 * 60;
+export const USER_IDENTITY_MAX_AGE = 0.5 * 365 * 24 * 60 * 60; // half a year
 
 export const ARTICLE_TOPICS = [
   { name: 'css', title: 'CSS', emoji: '🧝‍♀️' },
@@ -43,6 +44,9 @@ export const ARTICLE_TOPICS = [
 ];
 export const ARTICLE_KEYWORDS = ['api', 'architecture', 'design', 'fundamentals', 'perfomance', 'refactoring'] as const;
 export const MAX_ARTICLE_RATE = 5;
-export const ARTICLE_RATE_MAX_AGE = 30 * 24 * 60 * 60;
+export const ARTICLE_RATE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 export const MOST_VIEWED_ARTICLES_LIMIT = 5;
 export const BEST_ARTICLES_LIMIT = 5;
+
+export const ACCESS_TOKEN_EXPIRES_IN = 60 * 5; // 5 minutes
+export const REFRESH_TOKEN_EXPIRES_IN = 60 * 60 * 24; // 1 day

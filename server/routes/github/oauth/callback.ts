@@ -54,6 +54,7 @@ export default defineEventHandler(async (event) => {
       sameSite: true,
       maxAge: USER_IDENTITY_MAX_AGE,
     });
+    setCookie(event, COOKIE_NAMES.accessToken, auth.token, { sameSite: true, secure: true });
 
     setResponseHeader(event, 'Content-Type', 'text/html');
     return `<html><head><meta http-equiv="refresh" content="0; URL='${getRequestURL(event).origin}'"/></head></html>`;
