@@ -47,7 +47,6 @@ const schema = new Schema(
     },
     password: {
       type: String,
-      required: true,
       validate: {
         validator: (value: string) => passwordValidator.safeParse(value).success,
       },

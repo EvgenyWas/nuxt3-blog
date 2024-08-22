@@ -6,11 +6,13 @@ const schema = new Schema(
       type: String,
       required: true,
       immutable: true,
+      maxLength: 2048,
     },
     topic: {
       type: String,
       required: true,
       immutable: true,
+      maxLength: 48,
     },
     views: {
       type: Number,
