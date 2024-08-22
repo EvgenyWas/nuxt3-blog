@@ -10,7 +10,6 @@
 
 ## ⚒️ Tech stack
 <div>
-<img alt="Vue" src="https://img.shields.io/badge/VueJS-0f172a?logo=vuedotjs">
 <img alt="Nuxt" src="https://img.shields.io/badge/NuxtJS-0f172a?logo=nuxtdotjs">
 <img alt="Nuxt Content" src="https://img.shields.io/badge/NuxtContent-0f172a?logo=nuxtdotjs">
 <img alt="Vuetify" src="https://img.shields.io/badge/Vuetify-0f172a?logo=vuetify">
@@ -19,6 +18,8 @@
 <img alt="PNPM" src="https://img.shields.io/badge/PNPM-0f172a?logo=pnpm">
 <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-0f172a?logo=mongodb">
 <img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-0f172a?logo=mongoosedotws">
+<img alt="Zod" src="https://img.shields.io/badge/Zod-0f172a?logo=zod">
+<img alt="Cloudinary" src="https://img.shields.io/badge/Cloudinary-0f172a?logo=cloudinary">
 </div>
 
 - **Framework** → [Nuxt](https://nuxtjs.org/)
