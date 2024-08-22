@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   try {
     const isUserExisted = await Profile.exists({ email: payload.email });
     if (isUserExisted) {
-      throw createError({ statusCode: 404, statusMessage: 'User with the provided email already exists' });
+      throw createError({ statusCode: 400, statusMessage: 'User with the provided email already exists' });
     }
 
     const user = await Profile.create({ ...payload, auth_provider: AUTH_PROVIDERS.Email_And_Password });
@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
     return sendError(
       event,
       createError({
-        statusCode: 404,
+        statusCode: 400,
         statusMessage: isMongooseError(error) ? error.message : 'Sign up data is invalid',
       }),
     );

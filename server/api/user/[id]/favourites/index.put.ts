@@ -32,7 +32,6 @@ export default defineEventHandler(async (event) => {
 
     return payload;
   } catch (error) {
-    console.log(error);
     return sendError(
       event,
       createError({ statusCode: 400, statusMessage: isMongooseError(error) ? error.message : 'Payload is invalid' }),

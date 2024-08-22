@@ -1,5 +1,6 @@
 import jwt, { type JwtPayload, type SignOptions } from 'jsonwebtoken';
 import { merge, omit } from 'lodash-es';
+import { ACCESS_TOKEN_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from '~/configs/properties';
 
 interface DefaultOptions {
   access: SignOptions;
@@ -30,11 +31,11 @@ const defaulSignOptions: SignOptions = {
 const defaultOptions: DefaultOptions = {
   access: {
     ...defaulSignOptions,
-    expiresIn: 60 * 5,
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
   },
   refresh: {
     ...defaulSignOptions,
-    expiresIn: 60 * 60 * 24,
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   },
 };
 
