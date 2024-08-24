@@ -11,6 +11,9 @@ export const FOOTER_LINKS = [
   { to: 'https://github.com/EvgenyWas/', icon: 'fab fa-github' },
 ];
 
+export const MAX_USER_EMAIL_LENGTH = 200;
+export const MIN_USER_PASSWORD_LENGTH = 8;
+export const MAX_USER_PASSWORD_LENGTH = 200;
 export const MIN_USER_NAME_LENGTH = 3;
 export const MAX_USER_NAME_LENGTH = 100;
 export const MAX_USER_DESCRIPTION_LENGTH = 500;

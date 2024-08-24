@@ -4,7 +4,9 @@ import {
   AUTH_PROVIDERS,
   MAX_USER_ADDRESS_LENGTH,
   MAX_USER_DESCRIPTION_LENGTH,
+  MAX_USER_EMAIL_LENGTH,
   MAX_USER_NAME_LENGTH,
+  MAX_USER_PASSWORD_LENGTH,
   MAX_USER_SOCIALS,
   MIN_USER_NAME_LENGTH,
 } from '~/configs/properties';
@@ -41,12 +43,14 @@ const schema = new Schema(
       type: String,
       required: true,
       immutable: true,
+      maxLength: MAX_USER_EMAIL_LENGTH,
       validate: {
         validator: (value: string) => emailValidator.safeParse(value).success,
       },
     },
     password: {
       type: String,
+      maxLength: MAX_USER_PASSWORD_LENGTH,
       validate: {
         validator: (value: string) => passwordValidator.safeParse(value).success,
       },

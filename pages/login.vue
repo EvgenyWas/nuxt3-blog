@@ -21,19 +21,23 @@
         <VTextField
           v-model.trim.lazy="model.email"
           :rules="emailRules"
+          :maxlength="MAX_USER_EMAIL_LENGTH"
           type="email"
           name="email"
           label="email"
           required
+          counter
         />
         <VTextField
           v-model.trim.lazy="model.password"
           :rules="passwordRules"
+          :maxlength="MAX_USER_PASSWORD_LENGTH"
           class="mb-2"
           type="password"
           name="password"
           label="password"
           required
+          counter
         />
         <VBtn
           class="w-50 mb-2 mx-auto"
@@ -65,6 +69,7 @@
 
 <script setup lang="ts">
 import AuthProviders from '~/components/AuthProviders.vue';
+import { MAX_USER_PASSWORD_LENGTH, MAX_USER_EMAIL_LENGTH } from '~/configs/properties';
 
 definePageMeta({
   layout: 'empty',

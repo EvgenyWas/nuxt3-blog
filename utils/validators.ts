@@ -1,14 +1,17 @@
 /* eslint-disable no-control-regex */
 import { z } from 'zod';
+import { MAX_USER_EMAIL_LENGTH, MAX_USER_PASSWORD_LENGTH, MIN_USER_PASSWORD_LENGTH } from '~/configs/properties';
 
 export const emailValidator = z
   .string()
   .min(1, { message: 'You must enter email.' })
+  .max(MAX_USER_EMAIL_LENGTH, { message: `Email must have maximum ${MAX_USER_EMAIL_LENGTH} characters` })
   .email({ message: 'Email must be valid.' });
 
 export const passwordValidator = z
   .string()
-  .min(8, { message: 'Password must have at least 8 characters' })
+  .min(MIN_USER_PASSWORD_LENGTH, { message: `Password must have at least ${MIN_USER_PASSWORD_LENGTH} characters` })
+  .max(MAX_USER_PASSWORD_LENGTH, { message: `Password must have maximum ${MAX_USER_PASSWORD_LENGTH} characters` })
   .regex(/[A-Z]/g, { message: 'Password must have at least one capital letter' })
   .regex(/[0-9]/g, { message: 'Password must have at least one number' })
   .regex(/[$&+,:;=?@#|'<>.^*()%!-]/g, { message: 'Password must have at least one special character' })

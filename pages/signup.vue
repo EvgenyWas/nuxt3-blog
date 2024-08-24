@@ -28,18 +28,22 @@
         <VTextField
           v-model.trim.lazy="model.email"
           :rules="emailRules"
+          :maxlength="MAX_USER_EMAIL_LENGTH"
           type="email"
           name="email"
           label="email"
           required
+          counter
         />
         <VTextField
           v-model.trim.lazy="model.password"
           :rules="passwordRules"
+          :maxlength="MAX_USER_PASSWORD_LENGTH"
           type="password"
           name="password"
           label="password"
           required
+          counter
         />
         <VTextField
           v-model.trim.lazy="model.confirm"
@@ -80,7 +84,7 @@
 
 <script setup lang="ts">
 import AuthProviders from '~/components/AuthProviders.vue';
-import { MIN_USER_NAME_LENGTH } from '~/configs/properties';
+import { MAX_USER_EMAIL_LENGTH, MAX_USER_PASSWORD_LENGTH, MIN_USER_NAME_LENGTH } from '~/configs/properties';
 
 definePageMeta({
   layout: 'empty',
