@@ -247,20 +247,10 @@
         name="fade"
         mode="out-in"
       >
-        <VBreadcrumbs
+        <Breadcrumbs
           v-if="breadcrumbs.length"
           :items="breadcrumbs"
-          aria-label="breadcrumbs"
-        >
-          <template #prepend>
-            <img
-              src="/nuxt-icon.svg"
-              alt="Nuxt icon"
-              height="20"
-              class="breadcrumbs-img"
-            />
-          </template>
-        </VBreadcrumbs>
+        />
       </Transition>
 
       <VMain class="d-flex flex-column align-center justify-center h-100 pt-0">
@@ -319,7 +309,9 @@
 
 <script setup lang="ts">
 import { useDisplay } from 'vuetify';
+import Breadcrumbs from '~/components/Breadcrumbs.vue';
 import { FOOTER_LINKS, NAV_PUBLIC_LINKS, NAV_USER_LINKS } from '~/configs/properties';
+import type { Breadcrumb } from '~/types/components';
 
 const { isDark, toggleTheme } = useColorTheme();
 const { mobile } = useDisplay();
@@ -332,7 +324,7 @@ const headerHeight = computed<number>(() => (mobile.value ? 48 : 64));
 
 const footerColor = computed<string>(() => (isDark.value ? 'v-theme-surface' : 'black'));
 
-const breadcrumbs = computed(() => {
+const breadcrumbs = computed<Array<Breadcrumb>>(() => {
   if (route.path === '/') {
     return [];
   }
@@ -348,8 +340,6 @@ const toggleDrawer = () => (drawer.value = !drawer.value);
 </script>
 
 <style scoped lang="scss">
-$filter-black-to-white: invert(100%) sepia(33%) saturate(3149%) hue-rotate(185deg) brightness(107%) contrast(104%);
-
 .logo {
   &--dark {
     filter: $filter-black-to-white;
@@ -358,12 +348,6 @@ $filter-black-to-white: invert(100%) sepia(33%) saturate(3149%) hue-rotate(185de
 
 .icon {
   &--dark {
-    filter: $filter-black-to-white;
-  }
-}
-
-.v-application.v-theme--dark {
-  .breadcrumbs-img {
     filter: $filter-black-to-white;
   }
 }

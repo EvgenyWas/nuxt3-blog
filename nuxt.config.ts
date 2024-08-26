@@ -43,6 +43,13 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "~/assets/styles/variables.scss";',
+        },
+      },
+    },
     build: {
       rollupOptions: {
         output: {
