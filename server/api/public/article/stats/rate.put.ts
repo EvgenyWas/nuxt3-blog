@@ -30,5 +30,5 @@ export default defineEventHandler(async (event) => {
 
   await stats.updateOne({ ratings, rate });
 
-  return true;
+  return { updated: true };
 });

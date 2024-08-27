@@ -222,7 +222,8 @@ const saveChanges = async () => {
     if (avatar.value) {
       const avatarBody = new FormData();
       avatarBody.append('avatar', avatar.value);
-      uploadedAvatar = await updateProfileAvatar(user.value.profile.id as string, { body: avatarBody });
+      const res = await updateProfileAvatar(user.value.profile.id as string, { body: avatarBody });
+      uploadedAvatar = res.path;
     }
 
     const profileBody = {

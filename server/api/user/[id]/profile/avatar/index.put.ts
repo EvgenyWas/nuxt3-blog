@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
       transformation: { format: 'webp' },
     });
 
-    return `/storage/${img.public_id}`;
+    return { path: `/storage/${img.public_id}` };
   } catch (error) {
     const errorInput = isCloudinarUploadApiError(error)
       ? { statusCode: error.http_code, statusMessage: error.message }

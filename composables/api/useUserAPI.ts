@@ -1,5 +1,5 @@
 import type { FetchOptions } from 'ofetch';
-import type { WhoamiResponse } from '~/types/responses';
+import type { DeleteUserFavouriteResponse, UpdateUserAvatarResponse, WhoamiResponse } from '~/types/responses';
 import type { FavouriteArticle, Profile } from '~/types/user';
 
 interface UpdateProfileOptions extends FetchOptions {
@@ -62,10 +62,18 @@ export default function useUserAPI() {
     $fetch<Profile>(`/api/user/${id}/profile`, { ...defaultOptions, ...options, method: 'PUT' });
 
   const updateProfileAvatar = (id: string, options: UpdateProfileAvatarOptions) =>
-    $fetch<string>(`/api/user/${id}/profile/avatar`, { ...defaultOptions, ...options, method: 'PUT' });
+    $fetch<UpdateUserAvatarResponse>(`/api/user/${id}/profile/avatar`, {
+      ...defaultOptions,
+      ...options,
+      method: 'PUT',
+    });
 
   const removeFavouriteArticle = (id: string, options: RemoveFavouriteArticleOptions) =>
-    $fetch<boolean>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'DELETE' });
+    $fetch<DeleteUserFavouriteResponse>(`/api/user/${id}/favourites`, {
+      ...defaultOptions,
+      ...options,
+      method: 'DELETE',
+    });
 
   const addFavouriteArticle = (id: string, options: AddFavouriteArticleOptions) =>
     $fetch<FavouriteArticle>(`/api/user/${id}/favourites`, { ...defaultOptions, ...options, method: 'PUT' });

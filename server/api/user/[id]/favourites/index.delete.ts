@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       throw new MongooseError('User with provided ID is not found');
     }
 
-    return true;
+    return { deleted: true };
   } catch (error) {
     return sendError(
       event,

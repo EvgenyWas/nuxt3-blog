@@ -36,3 +36,15 @@ export interface ArticlesStats {
   topic?: string;
   title?: string;
 }
+
+export interface UpdateArticleStatsResponse {
+  updated: boolean;
+}
+
+export interface DeleteUserFavouriteResponse {
+  deleted: boolean;
+}
+
+export interface UpdateUserAvatarResponse {
+  path: string;
+}

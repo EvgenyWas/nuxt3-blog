@@ -18,5 +18,5 @@ export default defineEventHandler(async (event) => {
     await ArticleStats.create({ topic, title, views: 1 });
   }
 
-  return true;
+  return { updated: true };
 });
