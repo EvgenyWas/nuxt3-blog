@@ -63,10 +63,23 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    '/**': { headers: { 'X-Robots-Tag': 'noindex' } },
-    '/signup': { ssr: false },
-    '/login': { ssr: false },
-    '/profile/**': { ssr: false },
+    '/**': {
+      headers: {
+        'X-Robots-Tag': 'noindex',
+      },
+    },
+    '/signup': {
+      ssr: false,
+    },
+    '/login': {
+      ssr: false,
+    },
+    '/profile/**': {
+      ssr: false,
+    },
+    '/articles/**': {
+      swr: 60 * 15, // 10 minutes
+    },
   },
   content: {
     highlight: {
