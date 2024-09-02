@@ -211,7 +211,6 @@ import { BEST_ARTICLES_LIMIT, MOST_VIEWED_ARTICLES_LIMIT } from '~/configs/prope
 
 const ARTICLE_IMAGE_FALLBACK = 'storage/app/article-fallback?height=450';
 
-useHead({ link: [{ href: 'storage/app/home-parallax', as: 'image', type: 'image/webp', rel: 'preload' }] });
 useSeoMeta({
   title: 'Nuxt 3 blog',
   description:
