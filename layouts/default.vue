@@ -114,9 +114,13 @@
                 :to="link.to"
               />
 
-              <VDivider class="my-2" />
+              <VDivider
+                v-if="user.authorized"
+                class="my-2"
+              />
 
               <VListItem
+                v-if="user.authorized"
                 title="Logout"
                 prepend-icon="fas fa-sign-out-alt"
                 href="/logout"
@@ -220,9 +224,13 @@
         :to="link.to"
       />
 
-      <VDivider class="my-2" />
+      <VDivider
+        v-if="user.authorized"
+        class="my-2"
+      />
 
       <VListItem
+        v-if="user.authorized"
         title="Logout"
         prepend-icon="fas fa-sign-out-alt"
         href="/logout"
