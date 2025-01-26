@@ -2,7 +2,7 @@
 
 # [Nuxt3 Blog](https://nuxt3-blog-mu.vercel.app/)
 
-🖼 My pet project within mentoring at KMS Lighthouse
+🖼 My pet-project of the blog website
 
 </div>
 
