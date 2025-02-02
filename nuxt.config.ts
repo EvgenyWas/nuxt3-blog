@@ -78,7 +78,13 @@ export default defineNuxtConfig({
       ssr: false,
     },
     '/articles/**': {
-      swr: 60 * 15, // 10 minutes
+      swr: 60 * 15, // 15 minutes
+    },
+    '/': {
+      swr: 60 * 60, // 1 hour
+    },
+    '/about': {
+      swr: 60 * 60, // 1 hour
     },
   },
   content: {
