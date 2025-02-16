@@ -17,6 +17,11 @@ export const passwordValidator = z
   .regex(/[$&+,:;=?@#|'<>.^*()%!-]/g, { message: 'Password must have at least one special character' })
   .refine((value) => !/[^\x00-\x7F]/g.test(value), { message: 'Password must have only ASCII characters' });
 
+export const loginPasswordValidator = z
+  .string({ message: 'Password is required' })
+  .trim()
+  .min(1, { message: 'You must enter your password' });
+
 export const dataURIValidator = z.string().regex(/data:([-\w]+\/[-+\w.]+)?(;?\w+=[-\w]+)*(;base64)?,.*/gu, {
   message: 'The value must be a valid data URI',
 });

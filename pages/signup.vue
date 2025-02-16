@@ -12,7 +12,7 @@
     >
       <VForm
         v-model="isValid"
-        validate-on="input lazy"
+        validate-on="blur"
         class="d-flex flex-column ga-2"
         @submit.prevent="submit"
       >
@@ -33,7 +33,6 @@
           name="email"
           label="email"
           required
-          counter
         />
         <VTextField
           v-model.trim.lazy="model.password"
@@ -43,7 +42,6 @@
           name="password"
           label="password"
           required
-          counter
         />
         <VTextField
           v-model.trim.lazy="model.confirm"
